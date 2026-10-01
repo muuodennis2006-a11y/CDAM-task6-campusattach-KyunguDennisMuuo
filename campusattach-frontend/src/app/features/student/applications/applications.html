@@ -1,0 +1,62 @@
+<div class="page">
+
+  <header class="topbar">
+
+    <div class="brand">
+      <div class="brand-icon">CA</div>
+      <div>
+        <strong>CampusAttach</strong>
+        <span>My Applications</span>
+      </div>
+    </div>
+
+    <a routerLink="/student/dashboard" class="back-link">
+      ← Dashboard
+    </a>
+
+  </header>
+
+  <main class="content">
+
+    <div class="heading">
+      <p class="eyebrow">APPLICATION TRACKING</p>
+      <h1>My Applications</h1>
+      <p>Track the status of your submitted applications.</p>
+    </div>
+
+    <section class="application-list">
+
+      @for (application of applications; track application.id) {
+
+        <article class="application-card">
+
+          <div>
+            <h2>{{ application.opportunityTitle }}</h2>
+
+            <p class="organization">
+              {{ application.organizationName }}
+            </p>
+
+            <p class="date">
+              Applied on {{ application.appliedDate }}
+            </p>
+          </div>
+
+          <span
+            class="status"
+            [class.pending]="application.status === 'Pending'"
+            [class.shortlisted]="application.status === 'Shortlisted'"
+            [class.accepted]="application.status === 'Accepted'"
+            [class.rejected]="application.status === 'Rejected'"
+          >
+            {{ application.status }}
+          </span>
+
+        </article>
+
+      }
+
+    </section>
+
+  </main>
+</div>

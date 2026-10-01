@@ -1,0 +1,119 @@
+﻿<div class="page-shell">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">System Admin</span>
+    </div>
+
+    <div class="top-actions">
+      <span class="welcome">{{ user()?.fullName }}</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">System Administration</p>
+        <h1>CampusAttach Administration</h1>
+        <p>
+          Monitor users, review opportunities and maintain a safe and
+          organized platform.
+        </p>
+      </div>
+    </section>
+
+    <section class="stats">
+      <article class="stat-card">
+        <span class="stat-icon">👥</span>
+        <div>
+          <strong>248</strong>
+          <span>Total Users</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">🎓</span>
+        <div>
+          <strong>210</strong>
+          <span>Students</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">🏢</span>
+        <div>
+          <strong>32</strong>
+          <span>Organizations</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">📢</span>
+        <div>
+          <strong>86</strong>
+          <span>Opportunities</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="notice">
+      <div class="notice-icon">⚠️</div>
+      <div>
+        <strong>Moderation requires attention</strong>
+        <p>
+          6 opportunities are waiting for review and 3 user accounts
+          require attention.
+        </p>
+      </div>
+    </section>
+
+    <section class="actions-section">
+      <h2>Administration Tasks</h2>
+
+      <div class="action-grid">
+        <a routerLink="/admin/users" class="action-card">
+          <span class="action-icon">👥</span>
+          <h3>Manage Users</h3>
+          <p>
+            View user accounts and activate or deactivate accounts.
+          </p>
+        </a>
+
+        <a routerLink="/admin/opportunities" class="action-card">
+          <span class="action-icon">📋</span>
+          <h3>Moderate Opportunities</h3>
+          <p>
+            Review opportunities submitted by organizations.
+          </p>
+        </a>
+      </div>
+    </section>
+
+    <section class="summary-section">
+      <h2>Platform Summary</h2>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <span>Pending Opportunity Reviews</span>
+          <strong>6</strong>
+        </div>
+
+        <div class="summary-card">
+          <span>Active User Accounts</span>
+          <strong>242</strong>
+        </div>
+
+        <div class="summary-card">
+          <span>Inactive Accounts</span>
+          <strong>6</strong>
+        </div>
+
+        <div class="summary-card">
+          <span>Applications Submitted</span>
+          <strong>524</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

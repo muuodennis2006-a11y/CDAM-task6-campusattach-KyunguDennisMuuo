@@ -1,0 +1,192 @@
+﻿:host {
+  display: block;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.topbar {
+  min-height: 72px;
+  padding: 0 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.brand {
+  color: #1d4ed8;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.role {
+  color: #6b7280;
+  margin-left: 10px;
+  font-size: 0.9rem;
+}
+
+.back-link {
+  color: #1d4ed8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.container {
+  max-width: 1250px;
+  margin: auto;
+  padding: 45px 20px;
+}
+
+.heading {
+  margin-bottom: 25px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #1d4ed8;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.heading h1 {
+  margin: 0 0 8px;
+  color: #111827;
+}
+
+.heading p {
+  margin: 0;
+  color: #6b7280;
+  max-width: 750px;
+}
+
+.moderation-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.moderation-summary div {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.moderation-summary span {
+  display: block;
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+
+.moderation-summary strong {
+  font-size: 1.5rem;
+  color: #111827;
+}
+
+.table-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 16px 18px;
+  text-align: left;
+  border-bottom: 1px solid #eef0f3;
+  white-space: nowrap;
+}
+
+th {
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+td {
+  color: #374151;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #fff7ed;
+  color: #c2410c;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.status.approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.rejected {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.moderation-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.moderation-actions button {
+  border: none;
+  padding: 7px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.approve-btn {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.reject-btn {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.pending-btn {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.moderation-note {
+  margin-top: 25px;
+  padding: 18px 20px;
+  background: #eff6ff;
+  color: #1e3a8a;
+  border-radius: 10px;
+}
+
+.moderation-note p {
+  margin: 6px 0 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .moderation-summary {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,107 @@
+﻿<div class="page">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">System Admin</span>
+    </div>
+
+    <a routerLink="/admin/dashboard" class="back-link">
+      ← Dashboard
+    </a>
+  </header>
+
+  <main class="container">
+    <section class="heading">
+      <div>
+        <p class="eyebrow">Administration</p>
+        <h1>User Management</h1>
+        <p>Review registered users and manage account access.</p>
+      </div>
+    </section>
+
+    <section class="controls">
+      <input
+        type="search"
+        [(ngModel)]="searchTerm"
+        placeholder="Search by name, email or role..."
+      />
+
+      <span>{{ filteredUsers.length }} users found</span>
+    </section>
+
+    <section class="table-card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Registered</th>
+              <th>Status</th>
+              <th>Account Access</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (user of filteredUsers; track user.id) {
+              <tr>
+                <td>
+                  <strong>{{ user.name }}</strong>
+                </td>
+
+                <td>{{ user.email }}</td>
+
+                <td>
+                  <span
+                    class="role-badge"
+                    [class.organization]="user.role === 'Organization'"
+                    [class.admin]="user.role === 'Admin'"
+                  >
+                    {{ user.role }}
+                  </span>
+                </td>
+
+                <td>{{ user.registeredDate }}</td>
+
+                <td>
+                  <span
+                    class="status"
+                    [class.inactive]="!user.active"
+                  >
+                    {{ user.active ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+
+                <td>
+                  <button
+                    type="button"
+                    class="toggle-btn"
+                    [class.activate]="!user.active"
+                    (click)="toggleUser(user)"
+                  >
+                    {{ user.active ? 'Deactivate' : 'Activate' }}
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty">
+                  No users match your search.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="info-box">
+      <strong>Admin responsibility</strong>
+      <p>
+        Administrators can manage account access to help maintain the
+        security and integrity of the CampusAttach platform.
+      </p>
+    </section>
+  </main>
+</div>

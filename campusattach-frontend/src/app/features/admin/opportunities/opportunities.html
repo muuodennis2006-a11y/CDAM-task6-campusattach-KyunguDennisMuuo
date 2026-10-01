@@ -1,0 +1,131 @@
+﻿<div class="page">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">System Admin</span>
+    </div>
+
+    <a routerLink="/admin/dashboard" class="back-link">
+      ← Dashboard
+    </a>
+  </header>
+
+  <main class="container">
+    <section class="heading">
+      <div>
+        <p class="eyebrow">Administration</p>
+        <h1>Opportunity Moderation</h1>
+        <p>
+          Review opportunities submitted by organizations before they
+          become available to students.
+        </p>
+      </div>
+    </section>
+
+    <section class="moderation-summary">
+      <div>
+        <span>Pending Review</span>
+        <strong>
+          {{ getCount('Pending') }}
+        </strong>
+      </div>
+
+      <div>
+        <span>Approved</span>
+        <strong>
+          {{ getCount('Approved') }}
+        </strong>
+      </div>
+
+      <div>
+        <span>Rejected</span>
+        <strong>
+          {{ getCount('Rejected') }}
+        </strong>
+      </div>
+    </section>
+
+    <section class="table-card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Opportunity</th>
+              <th>Organization</th>
+              <th>Type</th>
+              <th>Location</th>
+              <th>Submitted</th>
+              <th>Status</th>
+              <th>Moderation</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (opportunity of opportunities; track opportunity.id) {
+              <tr>
+                <td>
+                  <strong>{{ opportunity.title }}</strong>
+                </td>
+
+                <td>{{ opportunity.organization }}</td>
+
+                <td>{{ opportunity.type }}</td>
+
+                <td>{{ opportunity.location }}</td>
+
+                <td>{{ opportunity.submittedDate }}</td>
+
+                <td>
+                  <span
+                    class="status"
+                    [class.approved]="opportunity.status === 'Approved'"
+                    [class.rejected]="opportunity.status === 'Rejected'"
+                  >
+                    {{ opportunity.status }}
+                  </span>
+                </td>
+
+                <td>
+                  <div class="moderation-actions">
+                    <button
+                      type="button"
+                      class="approve-btn"
+                      (click)="updateStatus(opportunity, 'Approved')"
+                    >
+                      Approve
+                    </button>
+
+                    <button
+                      type="button"
+                      class="reject-btn"
+                      (click)="updateStatus(opportunity, 'Rejected')"
+                    >
+                      Reject
+                    </button>
+
+                    <button
+                      type="button"
+                      class="pending-btn"
+                      (click)="updateStatus(opportunity, 'Pending')"
+                    >
+                      Pending
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="moderation-note">
+      <strong>Moderation rule</strong>
+      <p>
+        Opportunities should be reviewed before publication so that
+        students can access organized and appropriate attachment and
+        internship information.
+      </p>
+    </section>
+  </main>
+</div>

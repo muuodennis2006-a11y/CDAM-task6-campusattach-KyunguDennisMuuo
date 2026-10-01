@@ -1,0 +1,109 @@
+﻿<div class="page">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">Organization Portal</span>
+    </div>
+
+    <a routerLink="/organization/dashboard" class="back-link">
+      ← Dashboard
+    </a>
+  </header>
+
+  <main class="container">
+    <section class="heading">
+      <p class="eyebrow">Organization</p>
+      <h1>Applicants</h1>
+      <p>Review students who have applied for your opportunities.</p>
+    </section>
+
+    <section class="applicants-card">
+      <div class="card-header">
+        <h2>Student Applications</h2>
+        <span>{{ applicants.length }} applicants</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Opportunity</th>
+              <th>University</th>
+              <th>Course</th>
+              <th>Applied</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (applicant of applicants; track applicant.id) {
+              <tr>
+                <td>
+                  <strong>{{ applicant.studentName }}</strong>
+                </td>
+
+                <td>{{ applicant.opportunity }}</td>
+
+                <td>{{ applicant.university }}</td>
+
+                <td>{{ applicant.course }}</td>
+
+                <td>{{ applicant.appliedDate }}</td>
+
+                <td>
+                  <select
+                    [value]="applicant.status"
+                    (change)="updateStatus(
+                      applicant.id,
+                      $any($event.target).value
+                    )"
+                    [class.pending]="applicant.status === 'Pending'"
+                    [class.shortlisted]="applicant.status === 'Shortlisted'"
+                    [class.accepted]="applicant.status === 'Accepted'"
+                    [class.rejected]="applicant.status === 'Rejected'"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Shortlisted">Shortlisted</option>
+                    <option value="Accepted">Accepted</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="status-guide">
+      <h2>Application Status Guide</h2>
+
+      <div class="guide-grid">
+        <div>
+          <span class="dot pending-dot"></span>
+          <strong>Pending</strong>
+          <p>Application is waiting for review.</p>
+        </div>
+
+        <div>
+          <span class="dot shortlisted-dot"></span>
+          <strong>Shortlisted</strong>
+          <p>Student has been selected for further consideration.</p>
+        </div>
+
+        <div>
+          <span class="dot accepted-dot"></span>
+          <strong>Accepted</strong>
+          <p>Student has been selected for the opportunity.</p>
+        </div>
+
+        <div>
+          <span class="dot rejected-dot"></span>
+          <strong>Rejected</strong>
+          <p>Application was not selected.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

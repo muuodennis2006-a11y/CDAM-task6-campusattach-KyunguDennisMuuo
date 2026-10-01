@@ -1,0 +1,106 @@
+﻿<div class="page">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">Organization Portal</span>
+    </div>
+
+    <a routerLink="/organization/dashboard" class="back-link">
+      ← Dashboard
+    </a>
+  </header>
+
+  <main class="container">
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow">Organization</p>
+        <h1>Manage Opportunities</h1>
+        <p>View and manage opportunities posted by your organization.</p>
+      </div>
+
+      <a routerLink="/organization/opportunities/new" class="primary-btn">
+        + Post Opportunity
+      </a>
+    </section>
+
+    @if (deletedId) {
+      <div class="success-message">
+        ✓ Opportunity deleted successfully.
+      </div>
+    }
+
+    <section class="table-card">
+      <div class="table-header">
+        <h2>Posted Opportunities</h2>
+        <span>{{ opportunities.length }} opportunities</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Opportunity</th>
+              <th>Type</th>
+              <th>Location</th>
+              <th>Deadline</th>
+              <th>Applicants</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (opportunity of opportunities; track opportunity.id) {
+              <tr>
+                <td>
+                  <strong>{{ opportunity.title }}</strong>
+                </td>
+
+                <td>{{ opportunity.type }}</td>
+
+                <td>{{ opportunity.location }}</td>
+
+                <td>{{ opportunity.deadline }}</td>
+
+                <td>
+                  <span class="applicant-count">
+                    {{ opportunity.applicants }}
+                  </span>
+                </td>
+
+                <td>
+                  <span
+                    class="status"
+                    [class.closed]="opportunity.status === 'Closed'"
+                  >
+                    {{ opportunity.status }}
+                  </span>
+                </td>
+
+                <td>
+                  <div class="actions">
+                    <a
+                      [routerLink]="['/organization/opportunities/new']"
+                      [queryParams]="{ id: opportunity.id }"
+                      class="edit-btn"
+                    >
+                      Edit
+                    </a>
+
+                    <button
+                      type="button"
+                      class="delete-btn"
+                      (click)="deleteOpportunity(opportunity.id)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>

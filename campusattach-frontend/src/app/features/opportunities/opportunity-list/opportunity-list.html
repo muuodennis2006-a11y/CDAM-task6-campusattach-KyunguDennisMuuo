@@ -1,0 +1,135 @@
+<div class="page">
+
+  <header class="topbar">
+
+    <div class="brand">
+      <div class="brand-icon">CA</div>
+      <div>
+        <strong>CampusAttach</strong>
+        <span>Opportunities</span>
+      </div>
+    </div>
+
+    <a routerLink="/student/dashboard" class="back-link">
+      ← Dashboard
+    </a>
+
+  </header>
+
+  <main class="content">
+
+    <div class="heading">
+      <div>
+        <p class="eyebrow">OPPORTUNITIES</p>
+        <h1>Find Your Next Opportunity</h1>
+        <p>Search and filter attachment and internship opportunities.</p>
+      </div>
+
+      <span class="count">
+        {{ filteredOpportunities().length }} opportunities
+      </span>
+    </div>
+
+    <section class="filters">
+
+      <input
+        type="search"
+        placeholder="Search opportunities..."
+        (input)="updateSearch($event)"
+      >
+
+      <select (change)="updateType($event)">
+        <option value="All">All types</option>
+        <option value="Attachment">Attachment</option>
+        <option value="Internship">Internship</option>
+      </select>
+
+      <select (change)="updateLocation($event)">
+        <option value="All">All locations</option>
+        <option value="Nairobi">Nairobi</option>
+        <option value="Thika">Thika</option>
+        <option value="Mombasa">Mombasa</option>
+        <option value="Nakuru">Nakuru</option>
+      </select>
+
+    </section>
+
+    @if (paginatedOpportunities().length === 0) {
+
+      <div class="empty">
+        <h2>No opportunities found</h2>
+        <p>Try changing your search or filters.</p>
+      </div>
+
+    } @else {
+
+      <section class="opportunity-grid">
+
+        @for (opportunity of paginatedOpportunities(); track opportunity.id) {
+
+          <article class="opportunity-card">
+
+            <div class="card-top">
+              <span class="type-badge">
+                {{ opportunity.type }}
+              </span>
+
+              <span class="status">
+                {{ opportunity.status }}
+              </span>
+            </div>
+
+            <h2>{{ opportunity.title }}</h2>
+
+            <p class="organization">
+              {{ opportunity.organizationName }}
+            </p>
+
+            <div class="meta">
+              <span>📍 {{ opportunity.location }}</span>
+              <span>📅 Deadline: {{ opportunity.deadline }}</span>
+            </div>
+
+            <p class="description">
+              {{ opportunity.description }}
+            </p>
+
+            <a
+              [routerLink]="['/opportunities', opportunity.id]"
+              class="details-button"
+            >
+              View Details
+            </a>
+
+          </article>
+
+        }
+
+      </section>
+
+      <div class="pagination">
+
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage() === 1"
+        >
+          Previous
+        </button>
+
+        <span>
+          Page {{ currentPage() }} of {{ totalPages() }}
+        </span>
+
+        <button
+          (click)="nextPage()"
+          [disabled]="currentPage() === totalPages()"
+        >
+          Next
+        </button>
+
+      </div>
+
+    }
+
+  </main>
+</div>

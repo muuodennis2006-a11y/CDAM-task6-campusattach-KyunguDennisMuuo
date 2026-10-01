@@ -1,0 +1,124 @@
+<div class="page">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">CA</div>
+      <div>
+        <strong>CampusAttach</strong>
+        <span>Opportunity Details</span>
+      </div>
+    </div>
+
+    <a routerLink="/opportunities" class="back-link">
+      ← Back to Opportunities
+    </a>
+  </header>
+
+  <main class="content">
+
+    @if (loading) {
+      <section class="hero-card">
+        <h1>Loading opportunity...</h1>
+      </section>
+    }
+
+    @if (errorMessage && !opportunity) {
+      <section class="hero-card">
+        <h1>Unable to load opportunity</h1>
+        <p>{{ errorMessage }}</p>
+      </section>
+    }
+
+    @if (opportunity) {
+
+      <section class="hero-card">
+
+        <div class="badge">
+          {{ opportunity.type }}
+        </div>
+
+        <h1>{{ opportunity.title }}</h1>
+
+        <p class="organization">
+          {{ opportunity.organization?.name || 'Organization' }}
+        </p>
+
+        <div class="meta">
+          <span>📍 {{ opportunity.location }}</span>
+
+          <span>
+            📅 Application deadline:
+            {{ opportunity.deadline | date:'mediumDate' }}
+          </span>
+        </div>
+
+      </section>
+
+      <div class="details-layout">
+
+        <section class="details-card">
+
+          <h2>Opportunity Description</h2>
+
+          <p>
+            {{ opportunity.description }}
+          </p>
+
+          <h2>Requirements</h2>
+
+          @if (opportunity.requirements) {
+            <p>{{ opportunity.requirements }}</p>
+          } @else {
+            <p>No specific requirements provided.</p>
+          }
+
+        </section>
+
+        <aside class="apply-card">
+
+          <h2>Ready to apply?</h2>
+
+          @if (applied) {
+
+            <div class="success">
+              You have already applied for this opportunity.
+            </div>
+
+            <a
+              routerLink="/student/applications"
+              class="primary-button"
+            >
+              View My Applications
+            </a>
+
+          } @else {
+
+            <p>
+              Submit your application for this opportunity.
+            </p>
+
+            @if (errorMessage) {
+              <div class="success">
+                {{ errorMessage }}
+              </div>
+            }
+
+            <button
+              class="primary-button"
+              (click)="apply()"
+              [disabled]="applying"
+            >
+              {{ applying ? 'Submitting...' : 'Apply Now' }}
+            </button>
+
+          }
+
+        </aside>
+
+      </div>
+
+    }
+
+  </main>
+
+</div>
