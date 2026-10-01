@@ -38,7 +38,7 @@ interface OpportunityResponse {
 export class OpportunityList {
   private http = inject(HttpClient);
 
-  private readonly apiUrl = 'http://localhost:3000/api';
+  private readonly apiUrl = 'https://campusattach-backend.onrender.com/api';
 
   searchTerm = signal('');
   selectedType = signal('All');

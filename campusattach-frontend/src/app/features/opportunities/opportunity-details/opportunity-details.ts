@@ -15,7 +15,7 @@ export class OpportunityDetails {
   private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://campusattach-backend.onrender.com/api';
 
   applied = false;
   loading = true;

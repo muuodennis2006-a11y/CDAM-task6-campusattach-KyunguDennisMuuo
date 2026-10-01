@@ -13,7 +13,7 @@ export class Applications {
 
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://campusattach-backend.onrender.com/api';
 
   applications: any[] = [];
   loading = true;

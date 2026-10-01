@@ -16,7 +16,7 @@ export class Dashboard {
   private router = inject(Router);
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://campusattach-backend.onrender.com/api';
 
   user = this.auth.currentUser;
 

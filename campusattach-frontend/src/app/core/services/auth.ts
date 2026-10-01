@@ -30,7 +30,7 @@ interface RegisterResponse {
   providedIn: 'root'
 })
 export class Auth {
-  private readonly apiUrl = 'http://localhost:3000/api';
+  private readonly apiUrl = 'https://campusattach-backend.onrender.com/api';
   private readonly tokenKey = 'campusattach_token';
   private readonly roleKey = 'campusattach_role';
   private readonly userKey = 'campusattach_user';
