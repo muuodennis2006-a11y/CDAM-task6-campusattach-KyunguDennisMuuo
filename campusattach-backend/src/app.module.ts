@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
@@ -8,7 +8,7 @@ import { AdminModule } from './admin/admin.module';
 import { StudentsModule } from './students/students.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { UsersModule } from './users/users.module';
-
+import { AppController } from './app.controller';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,5 +23,7 @@ import { UsersModule } from './users/users.module';
     OrganizationsModule,
     UsersModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
+
