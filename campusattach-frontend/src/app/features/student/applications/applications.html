@@ -4,6 +4,7 @@
 
     <div class="brand">
       <div class="brand-icon">CA</div>
+
       <div>
         <strong>CampusAttach</strong>
         <span>My Applications</span>
@@ -20,43 +21,99 @@
 
     <div class="heading">
       <p class="eyebrow">APPLICATION TRACKING</p>
+
       <h1>My Applications</h1>
-      <p>Track the status of your submitted applications.</p>
+
+      <p>
+        Track the status of your submitted applications.
+      </p>
     </div>
 
-    <section class="application-list">
+    @if (loading) {
 
-      @for (application of applications; track application.id) {
+      <section class="empty">
+        <h2>Loading applications...</h2>
+        <p>Please wait while we retrieve your applications.</p>
+      </section>
 
-        <article class="application-card">
+    } @else if (errorMessage) {
 
-          <div>
-            <h2>{{ application.opportunityTitle }}</h2>
+      <section class="empty">
+        <h2>Unable to load applications</h2>
+        <p>{{ errorMessage }}</p>
+      </section>
 
-            <p class="organization">
-              {{ application.organizationName }}
-            </p>
+    } @else if (applications.length === 0) {
 
-            <p class="date">
-              Applied on {{ application.appliedDate }}
-            </p>
-          </div>
+      <section class="empty">
+        <h2>No applications yet</h2>
 
-          <span
-            class="status"
-            [class.pending]="application.status === 'Pending'"
-            [class.shortlisted]="application.status === 'Shortlisted'"
-            [class.accepted]="application.status === 'Accepted'"
-            [class.rejected]="application.status === 'Rejected'"
-          >
-            {{ application.status }}
-          </span>
+        <p>
+          You have not submitted any applications yet.
+        </p>
 
-        </article>
+        <a
+          routerLink="/opportunities"
+          class="primary-button"
+        >
+          Browse Opportunities
+        </a>
+      </section>
 
-      }
+    } @else {
 
-    </section>
+      <section class="application-list">
+
+        @for (
+          application of applications;
+          track application.id
+        ) {
+
+          <article class="application-card">
+
+            <div>
+
+              <h2>
+                {{ getOpportunityTitle(application) }}
+              </h2>
+
+              <p class="organization">
+                {{ getOrganizationName(application) }}
+              </p>
+
+              <p class="date">
+                Applied on
+                {{ application.appliedDate | date:'mediumDate' }}
+              </p>
+
+            </div>
+
+            <span
+              class="status"
+              [class.pending]="
+                application.status === 'PENDING'
+              "
+              [class.shortlisted]="
+                application.status === 'SHORTLISTED'
+              "
+              [class.accepted]="
+                application.status === 'ACCEPTED'
+              "
+              [class.rejected]="
+                application.status === 'REJECTED'
+              "
+            >
+              {{ getStatusLabel(application.status) }}
+            </span>
+
+          </article>
+
+        }
+
+      </section>
+
+    }
 
   </main>
+
 </div>

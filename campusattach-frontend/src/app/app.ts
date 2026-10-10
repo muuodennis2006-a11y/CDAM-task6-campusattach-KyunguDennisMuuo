@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+﻿import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './shared/navbar/navbar';
 import { Auth } from './core/services/auth';
-
 @Component({
   selector: 'app-root',
   standalone: true,

@@ -1,26 +1,30 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-import { Opportunity } from '../../../models/opportunity.model';
 
-interface ApiOpportunity {
+interface Opportunity {
   id: number;
   title: string;
-  type: 'ATTACHMENT' | 'INTERNSHIP';
+  type: string;
   location: string;
   description: string;
-  requirements?: string | null;
-  deadline: string;
-  status: 'OPEN' | 'CLOSED' | 'PENDING' | 'REJECTED';
-  postedDate: string;
+  requirements?: string;
+  deadline?: string;
+  status?: string;
+  postedDate?: string;
+
+  organizationName?: string;
+
   organization?: {
+    id: number;
     name: string;
+    location?: string;
   };
 }
 
 interface OpportunityResponse {
-  data: ApiOpportunity[];
-  pagination: {
+  data: Opportunity[];
+  pagination?: {
     page: number;
     limit: number;
     total: number;
@@ -36,63 +40,72 @@ interface OpportunityResponse {
   styleUrl: './opportunity-list.css'
 })
 export class OpportunityList {
+
   private http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://campusattach-backend.onrender.com/api';
+  private readonly apiUrl =
+    'https://campusattach-backend.onrender.com/api';
 
-  searchTerm = signal('');
-  selectedType = signal('All');
-  selectedLocation = signal('All');
-
-  currentPage = signal(1);
-  pageSize = 10;
-
-  opportunities: Opportunity[] = [];
-
+  opportunities = signal<Opportunity[]>([]);
   loading = signal(true);
   errorMessage = signal('');
 
+  searchTerm = signal('');
+  selectedType = signal('ALL');
+  selectedLocation = signal('ALL');
+
+  currentPage = signal(1);
+  totalPages = signal(1);
+
   filteredOpportunities = computed(() => {
-    const search = this.searchTerm().toLowerCase().trim();
+    const opportunities = this.opportunities();
+    const search = this.searchTerm().trim().toLowerCase();
     const type = this.selectedType();
     const location = this.selectedLocation();
 
-    return this.opportunities.filter(opportunity => {
+    return opportunities.filter(opportunity => {
+
       const matchesSearch =
         !search ||
         opportunity.title.toLowerCase().includes(search) ||
-        opportunity.organizationName.toLowerCase().includes(search) ||
-        opportunity.description.toLowerCase().includes(search);
+        opportunity.description.toLowerCase().includes(search) ||
+        opportunity.organization?.name
+          ?.toLowerCase()
+          .includes(search);
 
       const matchesType =
-        type === 'All' || opportunity.type === type;
+        type === 'ALL' ||
+        opportunity.type === type;
 
       const matchesLocation =
-        location === 'All' || opportunity.location === location;
+        location === 'ALL' ||
+        opportunity.location === location;
 
       return matchesSearch && matchesType && matchesLocation;
     });
   });
 
   paginatedOpportunities = computed(() => {
-    const start = (this.currentPage() - 1) * this.pageSize;
+    const items = this.filteredOpportunities();
+    const page = this.currentPage();
 
-    return this.filteredOpportunities().slice(
-      start,
-      start + this.pageSize
-    );
+    const pageSize = 6;
+    const start = (page - 1) * pageSize;
+
+    return items.slice(start, start + pageSize);
   });
 
-  totalPages = computed(() =>
-    Math.max(
-      1,
-      Math.ceil(
-        this.filteredOpportunities().length / this.pageSize
-      )
-    )
-  );
+  locations = computed(() => {
+    const locationSet = new Set(
+      this.opportunities()
+        .map(opportunity => opportunity.location)
+        .filter(Boolean)
+    );
 
-  constructor() {
+    return Array.from(locationSet);
+  });
+
+  ngOnInit(): void {
     this.loadOpportunities();
   }
 
@@ -102,91 +115,92 @@ export class OpportunityList {
 
     this.http
       .get<OpportunityResponse>(
-        `${this.apiUrl}/opportunities?limit=50`
+        `${this.apiUrl}/opportunities?status=OPEN&page=1&limit=50`
       )
       .subscribe({
         next: response => {
-          this.opportunities = response.data.map(
-            opportunity => this.mapOpportunity(opportunity)
+          console.log(
+            'Browse opportunities response:',
+            response
+          );
+
+          this.opportunities.set(
+            (response?.data ?? []).map(opportunity => ({
+              ...opportunity,
+              organizationName:
+                opportunity.organization?.name ?? 'Organization'
+            }))
+          );
+
+          this.currentPage.set(1);
+
+          const total = response?.data?.length ?? 0;
+          const pageSize = 6;
+
+          this.totalPages.set(
+            Math.max(1, Math.ceil(total / pageSize))
           );
 
           this.loading.set(false);
         },
-        error: error => {
-          console.error('Failed to load opportunities:', error);
 
-          this.errorMessage.set(
-            error?.error?.message ||
-            'Unable to load opportunities.'
+        error: error => {
+          console.error(
+            'Failed to load opportunities:',
+            error
           );
 
+          this.opportunities.set([]);
           this.loading.set(false);
+          this.errorMessage.set(
+            'Failed to load opportunities. Please try again.'
+          );
         }
       });
   }
 
-  private mapOpportunity(
-    opportunity: ApiOpportunity
-  ): Opportunity {
-    return {
-      id: opportunity.id,
-      title: opportunity.title,
-      organizationName:
-        opportunity.organization?.name || 'Unknown organization',
-      type:
-        opportunity.type === 'ATTACHMENT'
-          ? 'Attachment'
-          : 'Internship',
-      location: opportunity.location,
-      description: opportunity.description,
-      requirements: opportunity.requirements
-        ? opportunity.requirements
-            .split(',')
-            .map(item => item.trim())
-            .filter(Boolean)
-        : [],
-      deadline: opportunity.deadline,
-      status:
-        opportunity.status === 'OPEN'
-          ? 'Open'
-          : 'Closed',
-      postedDate: opportunity.postedDate
-    };
-  }
-
   updateSearch(event: Event): void {
-    this.searchTerm.set(
-      (event.target as HTMLInputElement).value
-    );
+    const input = event.target as HTMLInputElement;
 
+    this.searchTerm.set(input.value);
     this.currentPage.set(1);
+    this.updateTotalPages();
   }
 
   updateType(event: Event): void {
-    this.selectedType.set(
-      (event.target as HTMLSelectElement).value
-    );
+    const select = event.target as HTMLSelectElement;
 
+    this.selectedType.set(select.value);
     this.currentPage.set(1);
+    this.updateTotalPages();
   }
 
   updateLocation(event: Event): void {
-    this.selectedLocation.set(
-      (event.target as HTMLSelectElement).value
-    );
+    const select = event.target as HTMLSelectElement;
 
+    this.selectedLocation.set(select.value);
     this.currentPage.set(1);
+    this.updateTotalPages();
   }
 
-  nextPage(): void {
-    if (this.currentPage() < this.totalPages()) {
-      this.currentPage.update(page => page + 1);
-    }
+  updateTotalPages(): void {
+    const total = this.filteredOpportunities().length;
+    const pageSize = 6;
+
+    this.totalPages.set(
+      Math.max(1, Math.ceil(total / pageSize))
+    );
   }
 
   previousPage(): void {
     if (this.currentPage() > 1) {
       this.currentPage.update(page => page - 1);
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.update(page => page + 1);
     }
   }
 }

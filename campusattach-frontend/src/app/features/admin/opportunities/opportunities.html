@@ -1,4 +1,4 @@
-﻿<div class="page">
+<div class="page">
   <header class="topbar">
     <div>
       <span class="brand">CampusAttach</span>
@@ -22,6 +22,8 @@
       </div>
     </section>
 
+    @if (errorMessage) { <p class="error-message">{{ errorMessage }}</p> }
+    @if (loading) { <p>Loading opportunities from the database...</p> }
     <section class="moderation-summary">
       <div>
         <span>Pending Review</span>

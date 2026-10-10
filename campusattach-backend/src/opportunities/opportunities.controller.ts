@@ -33,6 +33,13 @@ export class OpportunitiesController {
     return this.opportunitiesService.findAll(query);
   }
 
+  @Get('mine')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('ORGANIZATION')
+  findMine(@Req() req: any) {
+    return this.opportunitiesService.findMine(req.user.userId);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.opportunitiesService.findOne(id);

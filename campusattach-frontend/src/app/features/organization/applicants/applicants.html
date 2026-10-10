@@ -1,4 +1,4 @@
-﻿<div class="page">
+<div class="page">
   <header class="topbar">
     <div>
       <span class="brand">CampusAttach</span>
@@ -17,6 +17,8 @@
       <p>Review students who have applied for your opportunities.</p>
     </section>
 
+    @if (errorMessage) { <p class="error-message">{{ errorMessage }}</p> }
+    @if (loading) { <p>Loading applicants from the database...</p> }
     <section class="applicants-card">
       <div class="card-header">
         <h2>Student Applications</h2>

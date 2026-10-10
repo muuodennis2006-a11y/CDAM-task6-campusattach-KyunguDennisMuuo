@@ -1,4 +1,4 @@
-﻿<div class="page">
+<div class="page">
   <header class="topbar">
     <div>
       <span class="brand">CampusAttach</span>
@@ -26,6 +26,7 @@
       </div>
     }
 
+    @if (errorMessage) { <p class="error-message">{{ errorMessage }}</p> }
     <form [formGroup]="opportunityForm" (ngSubmit)="onSubmit()" class="form-card">
 
       <div class="field">

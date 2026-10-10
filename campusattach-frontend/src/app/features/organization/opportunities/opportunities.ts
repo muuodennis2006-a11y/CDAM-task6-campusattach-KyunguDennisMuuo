@@ -1,4 +1,5 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 
 interface PostedOpportunity {
@@ -18,54 +19,58 @@ interface PostedOpportunity {
   templateUrl: './opportunities.html',
   styleUrl: './opportunities.css'
 })
-export class Opportunities {
-  opportunities: PostedOpportunity[] = [
-    {
-      id: 1,
-      title: 'Software Development Intern',
-      type: 'Internship',
-      location: 'Nairobi, Kenya',
-      deadline: '2026-10-30',
-      applicants: 14,
-      status: 'Open'
-    },
-    {
-      id: 2,
-      title: 'QA Testing Attachment',
-      type: 'Attachment',
-      location: 'Nairobi, Kenya',
-      deadline: '2026-11-15',
-      applicants: 8,
-      status: 'Open'
-    },
-    {
-      id: 3,
-      title: 'IT Support Intern',
-      type: 'Internship',
-      location: 'Thika, Kenya',
-      deadline: '2026-09-28',
-      applicants: 12,
-      status: 'Closed'
-    }
-  ];
+export class Opportunities implements OnInit {
+  private http = inject(HttpClient);
+  private api = 'https://campusattach-backend.onrender.com/api';
 
+  opportunities: PostedOpportunity[] = [];
   deletedId: number | null = null;
+  loading = true;
+  errorMessage = '';
+
+  ngOnInit(): void {
+    this.load();
+  }
+
+  load(): void {
+    this.loading = true;
+    this.errorMessage = '';
+
+    this.http.get<any[]>(`${this.api}/opportunities/mine`).subscribe({
+      next: (rows) => {
+        this.opportunities = (rows || []).map((item) => ({
+          id: item.id,
+          title: item.title,
+          type: String(item.type || '').toLowerCase() === 'attachment'
+            ? 'Attachment' : 'Internship',
+          location: item.location || '',
+          deadline: item.deadline ? String(item.deadline).slice(0, 10) : '',
+          applicants: item._count?.applications ?? item.applicantCount ?? 0,
+          status: item.status === 'OPEN' ? 'Open'
+            : item.status === 'CLOSED' ? 'Closed'
+            : item.status === 'REJECTED' ? 'Rejected' : 'Pending'
+        }));
+        this.loading = false;
+      },
+      error: (error) => {
+        this.errorMessage =
+          error?.error?.message || 'Could not load your opportunities. Please sign in again.';
+        this.loading = false;
+      }
+    });
+  }
 
   deleteOpportunity(id: number): void {
-    const confirmed = confirm(
-      'Are you sure you want to delete this opportunity?'
-    );
+    if (!confirm('Are you sure you want to delete this opportunity?')) return;
 
-    if (!confirmed) return;
-
-    this.opportunities = this.opportunities.filter(
-      opportunity => opportunity.id !== id
-    );
-
-    this.deletedId = id;
-
-    setTimeout(() => {
-      this.deletedId = null;
-    }, 1500);
+    this.http.delete(`${this.api}/opportunities/${id}`).subscribe({
+      next: () => {
+        this.opportunities = this.opportunities.filter(item => item.id !== id);
+        this.deletedId = id;
+      },
+      error: (error) => {
+        alert(error?.error?.message || 'Could not delete opportunity.');
+      }
+    });
   }
 }

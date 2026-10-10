@@ -1,12 +1,29 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
+import {
+  Component,
+  inject,
+  signal
+} from '@angular/core';
+
+import {
+  ActivatedRoute,
+  RouterLink
+} from '@angular/router';
+
+import {
+  HttpClient
+} from '@angular/common/http';
+
+import {
+  DatePipe
+} from '@angular/common';
 
 @Component({
   selector: 'app-opportunity-details',
   standalone: true,
-  imports: [RouterLink, DatePipe],
+  imports: [
+    RouterLink,
+    DatePipe
+  ],
   templateUrl: './opportunity-details.html',
   styleUrl: './opportunity-details.css'
 })
@@ -15,61 +32,165 @@ export class OpportunityDetails {
   private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
 
-  private apiUrl = 'https://campusattach-backend.onrender.com/api';
+  private readonly apiUrl =
+    'https://campusattach-backend.onrender.com/api';
 
-  applied = false;
-  loading = true;
-  applying = false;
-  errorMessage = '';
+  applied = signal(false);
+  loading = signal(true);
+  applying = signal(false);
 
-  opportunity: any = null;
+  errorMessage = signal('');
+
+  opportunity = signal<any | null>(null);
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.http.get<any>(`${this.apiUrl}/opportunities/${id}`)
+    this.route.paramMap.subscribe(
+      params => {
+
+        const id = Number(
+          params.get('id')
+        );
+
+        if (
+          !id ||
+          Number.isNaN(id)
+        ) {
+
+          this.loading.set(false);
+
+          this.errorMessage.set(
+            'Invalid opportunity ID.'
+          );
+
+          return;
+        }
+
+        this.loadOpportunity(id);
+      }
+    );
+  }
+
+  loadOpportunity(
+    id: number
+  ): void {
+
+    this.loading.set(true);
+    this.errorMessage.set('');
+    this.opportunity.set(null);
+
+    console.log(
+      'Loading opportunity:',
+      id
+    );
+
+    this.http
+      .get<any>(
+        `${this.apiUrl}/opportunities/${id}`
+      )
       .subscribe({
-        next: (data) => {
-          this.opportunity = data;
-          this.loading = false;
+
+        next: response => {
+
+          console.log(
+            'Opportunity details response:',
+            response
+          );
+
+          const data =
+            response?.data ||
+            response;
+
+          this.opportunity.set(data);
+
+          if (!data?.id) {
+
+            this.errorMessage.set(
+              'Opportunity details were not found.'
+            );
+          }
+
+          this.loading.set(false);
         },
-        error: (error) => {
-          console.error('Failed to load opportunity:', error);
-          this.errorMessage = 'Failed to load opportunity.';
-          this.loading = false;
+
+        error: error => {
+
+          console.error(
+            'Failed to load opportunity:',
+            error
+          );
+
+          this.errorMessage.set(
+            error?.error?.message ||
+            'Failed to load opportunity.'
+          );
+
+          this.loading.set(false);
         }
       });
   }
 
   apply(): void {
-    if (!this.opportunity || this.applying) {
+
+    const opportunity =
+      this.opportunity();
+
+    if (
+      !opportunity ||
+      this.applying()
+    ) {
       return;
     }
 
-    this.applying = true;
-    this.errorMessage = '';
+    this.applying.set(true);
+    this.errorMessage.set('');
 
-    this.http.post(
-      `${this.apiUrl}/opportunities/${this.opportunity.id}/applications`,
-      {}
-    ).subscribe({
-      next: () => {
-        this.applied = true;
-        this.applying = false;
-      },
-      error: (error) => {
-        console.error('Application failed:', error);
+    this.http
+      .post(
+        `${this.apiUrl}/opportunities/${opportunity.id}/applications`,
+        {}
+      )
+      .subscribe({
 
-        this.applying = false;
+        next: response => {
 
-        if (error.status === 409) {
-          this.applied = true;
-          this.errorMessage = 'You have already applied for this opportunity.';
-        } else {
-          this.errorMessage =
-            error.error?.message || 'Application could not be submitted.';
+          console.log(
+            'Application submitted:',
+            response
+          );
+
+          this.applied.set(true);
+          this.applying.set(false);
+        },
+
+        error: error => {
+
+          console.error(
+            'Application failed:',
+            error
+          );
+
+          this.applying.set(false);
+
+          if (
+            error?.status === 409
+          ) {
+
+            this.applied.set(true);
+
+            this.errorMessage.set(
+              error?.error?.message ||
+              'You have already applied for this opportunity.'
+            );
+
+          } else {
+
+            this.errorMessage.set(
+              error?.error?.message ||
+              'Application could not be submitted.'
+            );
+          }
         }
-      }
-    });
+      });
   }
 }

@@ -54,14 +54,28 @@
 
     </section>
 
-    @if (paginatedOpportunities().length === 0) {
+    @if (loading()) {
 
-      <div class="empty">
-        <h2>No opportunities found</h2>
-        <p>Try changing your search or filters.</p>
-      </div>
+  <div class="empty">
+    <h2>Loading opportunities...</h2>
+    <p>Please wait while we retrieve the latest opportunities.</p>
+  </div>
 
-    } @else {
+} @else if (errorMessage()) {
+
+  <div class="empty">
+    <h2>Unable to load opportunities</h2>
+    <p>{{ errorMessage() }}</p>
+  </div>
+
+} @else if (paginatedOpportunities().length === 0) {
+
+  <div class="empty">
+    <h2>No opportunities found</h2>
+    <p>Try changing your search or filters.</p>
+  </div>
+
+} @else {
 
       <section class="opportunity-grid">
 

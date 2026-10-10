@@ -8,6 +8,20 @@ import { PrismaService } from '../prisma/prisma.service';
 export class AdminService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getStats() {
+    const [totalUsers, students, organizations, opportunities, pendingOpportunities, activeUsers, inactiveUsers, applications] = await Promise.all([
+      this.prisma.user.count(),
+      this.prisma.user.count({ where: { role: 'STUDENT' } }),
+      this.prisma.user.count({ where: { role: 'ORGANIZATION' } }),
+      this.prisma.opportunity.count(),
+      this.prisma.opportunity.count({ where: { status: 'PENDING' } }),
+      this.prisma.user.count({ where: { isActive: true } }),
+      this.prisma.user.count({ where: { isActive: false } }),
+      this.prisma.application.count(),
+    ]);
+    return { totalUsers, students, organizations, opportunities, pendingOpportunities, activeUsers, inactiveUsers, applications };
+  }
+
   async getUsers() {
     return this.prisma.user.findMany({
       select: {

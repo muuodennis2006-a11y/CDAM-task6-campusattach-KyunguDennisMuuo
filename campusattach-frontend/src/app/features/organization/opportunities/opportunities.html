@@ -1,4 +1,4 @@
-﻿<div class="page">
+<div class="page">
   <header class="topbar">
     <div>
       <span class="brand">CampusAttach</span>
@@ -29,6 +29,8 @@
       </div>
     }
 
+    @if (errorMessage) { <p class="error-message">{{ errorMessage }}</p> }
+    @if (loading) { <p>Loading your opportunities from the database...</p> }
     <section class="table-card">
       <div class="table-header">
         <h2>Posted Opportunities</h2>

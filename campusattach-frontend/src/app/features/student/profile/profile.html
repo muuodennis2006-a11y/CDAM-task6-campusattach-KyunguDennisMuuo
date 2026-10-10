@@ -1,8 +1,10 @@
-<div class="page">
+﻿<div class="page">
 
   <header class="topbar">
+
     <div class="brand">
       <div class="brand-icon">CA</div>
+
       <div>
         <strong>CampusAttach</strong>
         <span>Student Portal</span>
@@ -10,124 +12,306 @@
     </div>
 
     <a routerLink="/student/dashboard" class="back-link">
-      ← Dashboard
+      â† Dashboard
     </a>
+
   </header>
 
   <main class="content">
 
     <div class="page-heading">
+
       <p class="eyebrow">STUDENT PROFILE</p>
+
       <h1>My Profile</h1>
-      <p>Keep your academic and personal information up to date.</p>
+
+      <p>
+        Add your academic and personal information so organizations
+        can understand your background.
+      </p>
+
     </div>
 
-    @if (saved) {
-      <div class="success">
-        Profile updated successfully.
-      </div>
+    @if (loading()) {
+
+      <section class="profile-card">
+        <h2>Loading your profile...</h2>
+        <p>
+          Retrieving your information from the database.
+        </p>
+      </section>
+
+    } @else {
+
+      @if (saved()) {
+
+        <div class="success">
+          Profile updated successfully.
+        </div>
+
+      }
+
+      @if (errorMessage()) {
+
+        <div class="error">
+          {{ errorMessage() }}
+        </div>
+
+      }
+
+      <form
+        [formGroup]="profileForm"
+        (ngSubmit)="onSubmit()"
+        class="profile-card"
+      >
+
+        <div class="section">
+
+          <h2>Personal Information</h2>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="fullName">
+                Full name
+              </label>
+
+              <input
+                id="fullName"
+                formControlName="fullName"
+                readonly
+              >
+
+              <small class="hint">
+                Your name comes from your CampusAttach account.
+              </small>
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="email">
+                Email
+              </label>
+
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                readonly
+              >
+
+              <small class="hint">
+                Your account email cannot be changed here.
+              </small>
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="phone">
+                Phone number
+              </label>
+
+              <input
+                id="phone"
+                type="tel"
+                formControlName="phone"
+                placeholder="Example: 0712345678"
+              >
+
+              @if (
+                submitted() &&
+                profileForm.controls.phone.invalid
+              ) {
+                <small class="error">
+                  Phone number is required.
+                </small>
+              }
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="university">
+                University
+              </label>
+
+              <input
+                id="university"
+                formControlName="university"
+                placeholder="Enter your university"
+              >
+
+              @if (
+                submitted() &&
+                profileForm.controls.university.invalid
+              ) {
+                <small class="error">
+                  University is required.
+                </small>
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="section">
+
+          <h2>Academic Information</h2>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="course">
+                Course
+              </label>
+
+              <input
+                id="course"
+                formControlName="course"
+                placeholder="Enter your course"
+              >
+
+              @if (
+                submitted() &&
+                profileForm.controls.course.invalid
+              ) {
+                <small class="error">
+                  Course is required.
+                </small>
+              }
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="yearOfStudy">
+                Year of study
+              </label>
+
+              <select
+                id="yearOfStudy"
+                formControlName="yearOfStudy"
+              >
+
+                <option [value]="0">
+                  Select year
+                </option>
+
+                <option [value]="1">
+                  Year 1
+                </option>
+
+                <option [value]="2">
+                  Year 2
+                </option>
+
+                <option [value]="3">
+                  Year 3
+                </option>
+
+                <option [value]="4">
+                  Year 4
+                </option>
+
+                <option [value]="5">
+                  Year 5
+                </option>
+
+                <option [value]="6">
+                  Year 6
+                </option>
+
+              </select>
+
+              @if (
+                submitted() &&
+                profileForm.controls.yearOfStudy.invalid
+              ) {
+                <small class="error">
+                  Select your year of study.
+                </small>
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="section">
+
+          <h2>Skills & Bio</h2>
+
+          <div class="form-group">
+
+            <label for="skills">
+              Skills
+            </label>
+
+            <input
+              id="skills"
+              formControlName="skills"
+              placeholder="Example: Angular, Python, SQL"
+            >
+
+            <small class="hint">
+              Separate skills using commas.
+            </small>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="bio">
+              Short bio
+            </label>
+
+            <textarea
+              id="bio"
+              rows="5"
+              formControlName="bio"
+              placeholder="Tell organizations about yourself..."
+            ></textarea>
+
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+
+          <a
+            routerLink="/student/dashboard"
+            class="secondary-button"
+          >
+            Cancel
+          </a>
+
+          <button
+            type="submit"
+            class="primary-button"
+            [disabled]="saving()"
+          >
+
+            @if (saving()) {
+              Saving...
+            } @else {
+              Save Profile
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
     }
 
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-card">
-
-      <div class="section">
-        <h2>Personal Information</h2>
-
-        <div class="form-grid">
-
-          <div class="form-group">
-            <label for="fullName">Full name</label>
-            <input id="fullName" formControlName="fullName">
-
-            @if (submitted && profileForm.controls.fullName.invalid) {
-              <small class="error">Full name is required.</small>
-            }
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" type="email" formControlName="email">
-
-            @if (submitted && profileForm.controls.email.invalid) {
-              <small class="error">Enter a valid email.</small>
-            }
-          </div>
-
-          <div class="form-group">
-            <label for="phone">Phone number</label>
-            <input id="phone" formControlName="phone">
-          </div>
-
-          <div class="form-group">
-            <label for="university">University</label>
-            <input id="university" formControlName="university">
-          </div>
-
-        </div>
-      </div>
-
-      <div class="section">
-        <h2>Academic Information</h2>
-
-        <div class="form-grid">
-
-          <div class="form-group">
-            <label for="course">Course</label>
-            <input id="course" formControlName="course">
-          </div>
-
-          <div class="form-group">
-            <label for="yearOfStudy">Year of study</label>
-            <select id="yearOfStudy" formControlName="yearOfStudy">
-              <option [value]="1">Year 1</option>
-              <option [value]="2">Year 2</option>
-              <option [value]="3">Year 3</option>
-              <option [value]="4">Year 4</option>
-              <option [value]="5">Year 5</option>
-              <option [value]="6">Year 6</option>
-            </select>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="section">
-
-        <h2>Skills & Bio</h2>
-
-        <div class="form-group">
-          <label for="skills">Skills</label>
-          <input
-            id="skills"
-            formControlName="skills"
-            placeholder="Example: Angular, Python, SQL"
-          >
-          <small class="hint">Separate skills using commas.</small>
-        </div>
-
-        <div class="form-group">
-          <label for="bio">Short bio</label>
-          <textarea
-            id="bio"
-            rows="5"
-            formControlName="bio"
-            placeholder="Tell organizations about yourself..."
-          ></textarea>
-        </div>
-
-      </div>
-
-      <div class="form-actions">
-        <a routerLink="/student/dashboard" class="secondary-button">
-          Cancel
-        </a>
-
-        <button type="submit" class="primary-button">
-          Save Profile
-        </button>
-      </div>
-
-    </form>
-
   </main>
+
 </div>

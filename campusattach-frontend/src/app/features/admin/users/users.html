@@ -1,4 +1,4 @@
-﻿<div class="page">
+<div class="page">
   <header class="topbar">
     <div>
       <span class="brand">CampusAttach</span>
@@ -29,6 +29,8 @@
       <span>{{ filteredUsers.length }} users found</span>
     </section>
 
+    @if (errorMessage) { <p class="error-message">{{ errorMessage }}</p> }
+    @if (loading) { <p>Loading users from the database...</p> }
     <section class="table-card">
       <div class="table-wrapper">
         <table>

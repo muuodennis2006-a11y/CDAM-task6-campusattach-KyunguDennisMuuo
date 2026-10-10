@@ -33,7 +33,7 @@ export class OpportunitiesService {
         description: dto.description,
         requirements: dto.requirements,
         deadline: new Date(dto.deadline),
-        status: 'OPEN',
+        status: 'PENDING',
       },
     });
   }
@@ -116,6 +116,16 @@ export class OpportunitiesService {
         totalPages: Math.ceil(total / safeLimit),
       },
     };
+  }
+
+  async findMine(userId: number) {
+    const organization = await this.prisma.organization.findUnique({ where: { userId } });
+    if (!organization) throw new NotFoundException('Organization profile not found');
+    return this.prisma.opportunity.findMany({
+      where: { organizationId: organization.id },
+      include: { _count: { select: { applications: true } } },
+      orderBy: { postedDate: 'desc' },
+    });
   }
 
   async findOne(id: number) {

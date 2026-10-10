@@ -1,89 +1,12 @@
-﻿import { Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-
-@Component({
-  selector: 'app-opportunity-form',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './opportunity-form.html',
-  styleUrl: './opportunity-form.css'
-})
-export class OpportunityForm {
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-
-  isEditMode = false;
-  saved = false;
-
-  opportunityForm = this.fb.nonNullable.group({
-    title: ['', [Validators.required, Validators.minLength(5)]],
-    type: ['Attachment', Validators.required],
-    location: ['', Validators.required],
-    description: ['', [Validators.required, Validators.minLength(20)]],
-    requirements: ['', Validators.required],
-    deadline: ['', Validators.required]
-  });
-
-  constructor() {
-    const id = this.route.snapshot.queryParamMap.get('id');
-
-    if (id) {
-      this.isEditMode = true;
-
-      this.opportunityForm.patchValue({
-        title: 'Software Development Intern',
-        type: 'Internship',
-        location: 'Nairobi, Kenya',
-        description:
-          'Join our software development team and gain practical experience building modern web applications.',
-        requirements:
-          'Basic programming knowledge\nUnderstanding of HTML, CSS and JavaScript\nTeamwork and communication skills',
-        deadline: '2026-10-30'
-      });
-    }
-  }
-
-  onSubmit(): void {
-    if (this.opportunityForm.invalid) {
-      this.opportunityForm.markAllAsTouched();
-      return;
-    }
-
-    const opportunity = this.opportunityForm.getRawValue();
-
-    const stored = JSON.parse(
-      localStorage.getItem('campusattach_opportunities') || '[]'
-    );
-
-    if (this.isEditMode) {
-      stored.push({
-        ...opportunity,
-        id: Date.now(),
-        organizationName: 'Demo Organization'
-      });
-    } else {
-      stored.push({
-        ...opportunity,
-        id: Date.now(),
-        organizationName: 'Demo Organization'
-      });
-    }
-
-    localStorage.setItem(
-      'campusattach_opportunities',
-      JSON.stringify(stored)
-    );
-
-    this.saved = true;
-
-    setTimeout(() => {
-      this.router.navigate(['/organization/opportunities']);
-    }, 800);
-  }
+import { HttpClient } from '@angular/common/http';
+@Component({selector:'app-opportunity-form',standalone:true,imports:[ReactiveFormsModule,RouterLink],templateUrl:'./opportunity-form.html',styleUrl:'./opportunity-form.css'})
+export class OpportunityForm implements OnInit {
+ private fb=inject(FormBuilder); private router=inject(Router); private route=inject(ActivatedRoute); private http=inject(HttpClient); private api='https://campusattach-backend.onrender.com/api';
+ isEditMode=false;saved=false;loading=false;errorMessage='';private id:number|null=null;
+ opportunityForm=this.fb.nonNullable.group({title:['',[Validators.required,Validators.minLength(5)]],type:['Attachment',Validators.required],location:['',Validators.required],description:['',[Validators.required,Validators.minLength(20)]],requirements:[''],deadline:['',Validators.required]});
+ ngOnInit(){const raw=this.route.snapshot.queryParamMap.get('id');if(raw){this.id=Number(raw);this.isEditMode=true;this.loading=true;this.http.get<any>(`${this.api}/opportunities/${this.id}`).subscribe({next:o=>{this.opportunityForm.patchValue({title:o.title||'',type:String(o.type).toLowerCase()==='attachment'?'Attachment':'Internship',location:o.location||'',description:o.description||'',requirements:o.requirements||'',deadline:o.deadline?String(o.deadline).slice(0,10):''});this.loading=false;},error:e=>{this.errorMessage=e?.error?.message||'Could not load this opportunity for editing.';this.loading=false;}});}}
+ onSubmit(){this.errorMessage='';if(this.opportunityForm.invalid||this.loading){this.opportunityForm.markAllAsTouched();return;}this.loading=true;const v=this.opportunityForm.getRawValue();const body={...v,type:v.type==='Attachment'?'ATTACHMENT':'INTERNSHIP',deadline:new Date(`${v.deadline}T23:59:59.000Z`).toISOString()};const request=this.isEditMode&&this.id?this.http.patch(`${this.api}/opportunities/${this.id}`,body):this.http.post(`${this.api}/opportunities`,body);request.subscribe({next:()=>{this.saved=true;this.loading=false;setTimeout(()=>this.router.navigate(['/organization/opportunities']),500);},error:e=>{this.loading=false;this.errorMessage=e?.error?.message||'Could not save opportunity. Check your login and try again.';}});}
 }

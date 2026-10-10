@@ -1,4 +1,4 @@
-﻿<div class="page-shell">
+<div class="page-shell">
   <header class="topbar">
     <div>
       <span class="brand">CampusAttach</span>
@@ -27,7 +27,7 @@
       <article class="stat-card">
         <span class="stat-icon">👥</span>
         <div>
-          <strong>248</strong>
+          <strong>{{ totalUsers }}</strong>
           <span>Total Users</span>
         </div>
       </article>
@@ -35,7 +35,7 @@
       <article class="stat-card">
         <span class="stat-icon">🎓</span>
         <div>
-          <strong>210</strong>
+          <strong>{{ students }}</strong>
           <span>Students</span>
         </div>
       </article>
@@ -43,7 +43,7 @@
       <article class="stat-card">
         <span class="stat-icon">🏢</span>
         <div>
-          <strong>32</strong>
+          <strong>{{ organizations }}</strong>
           <span>Organizations</span>
         </div>
       </article>
@@ -51,7 +51,7 @@
       <article class="stat-card">
         <span class="stat-icon">📢</span>
         <div>
-          <strong>86</strong>
+          <strong>{{ opportunities }}</strong>
           <span>Opportunities</span>
         </div>
       </article>
@@ -62,8 +62,7 @@
       <div>
         <strong>Moderation requires attention</strong>
         <p>
-          6 opportunities are waiting for review and 3 user accounts
-          require attention.
+          {{ pendingOpportunities }} opportunities are waiting for review and {{ inactiveUsers }} user accounts require attention.
         </p>
       </div>
     </section>
@@ -96,22 +95,22 @@
       <div class="summary-grid">
         <div class="summary-card">
           <span>Pending Opportunity Reviews</span>
-          <strong>6</strong>
+          <strong>{{ pendingOpportunities }}</strong>
         </div>
 
         <div class="summary-card">
           <span>Active User Accounts</span>
-          <strong>242</strong>
+          <strong>{{ activeUsers }}</strong>
         </div>
 
         <div class="summary-card">
           <span>Inactive Accounts</span>
-          <strong>6</strong>
+          <strong>{{ pendingOpportunities }}</strong>
         </div>
 
         <div class="summary-card">
           <span>Applications Submitted</span>
-          <strong>524</strong>
+          <strong>{{ applications }}</strong>
         </div>
       </div>
     </section>

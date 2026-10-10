@@ -31,19 +31,19 @@
 
       <div class="stat-card">
         <span class="stat-label">Available Opportunities</span>
-        <strong>{{ opportunityCount }}</strong>
+        <strong>{{ opportunityCount() }}</strong>
         <span class="stat-note">Currently listed</span>
       </div>
 
       <div class="stat-card">
         <span class="stat-label">My Applications</span>
-        <strong>{{ applicationCount }}</strong>
+        <strong>{{ applicationCount() }}</strong>
         <span class="stat-note">Applications submitted</span>
       </div>
 
       <div class="stat-card">
         <span class="stat-label">Shortlisted</span>
-        <strong>{{ shortlistedCount }}</strong>
+        <strong>{{ shortlistedCount() }}</strong>
         <span class="stat-note">Awaiting next step</span>
       </div>
 
@@ -52,7 +52,7 @@
     <section class="actions">
 
       <a routerLink="/opportunities" class="action-card">
-        <div class="action-icon">🔎</div>
+        <div class="action-icon"></div>
         <div>
           <h3>Browse Opportunities</h3>
           <p>Search and filter attachment and internship opportunities.</p>
@@ -60,7 +60,7 @@
       </a>
 
       <a routerLink="/student/applications" class="action-card">
-        <div class="action-icon">📋</div>
+        <div class="action-icon"></div>
         <div>
           <h3>My Applications</h3>
           <p>View your applications and track their current status.</p>
@@ -68,7 +68,7 @@
       </a>
 
       <a routerLink="/student/profile" class="action-card">
-        <div class="action-icon">👤</div>
+        <div class="action-icon"></div>
         <div>
           <h3>My Profile</h3>
           <p>Keep your student information and skills up to date.</p>

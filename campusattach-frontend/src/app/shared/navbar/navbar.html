@@ -1,82 +1,118 @@
-<nav class="navbar">
+﻿<nav class="navbar">
   <div class="navbar-inner">
-
-    <a class="brand" routerLink="/">
+    <a
+      class="brand"
+      [routerLink]="
+        role === 'student'
+          ? '/student/dashboard'
+          : role === 'organization'
+            ? '/organization/dashboard'
+            : role === 'admin'
+              ? '/admin/dashboard'
+              : '/login'
+      "
+    >
       <span class="brand-mark">CA</span>
       <span>
         <strong>CampusAttach</strong>
         <small>Attachment & Internship Platform</small>
       </span>
     </a>
-
     <div class="nav-content">
-
       @if (role === 'student') {
-        <a routerLink="/student/dashboard" routerLinkActive="active">
+        <a
+          routerLink="/student/dashboard"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           Dashboard
         </a>
-
-        <a routerLink="/opportunities" routerLinkActive="active">
+        <a
+          routerLink="/opportunities"
+          routerLinkActive="active"
+        >
           Opportunities
         </a>
-
-        <a routerLink="/student/applications" routerLinkActive="active">
+        <a
+          routerLink="/student/applications"
+          routerLinkActive="active"
+        >
           My Applications
         </a>
-
-        <a routerLink="/student/profile" routerLinkActive="active">
+        <a
+          routerLink="/student/profile"
+          routerLinkActive="active"
+        >
           My Profile
         </a>
       }
-
       @if (role === 'organization') {
-        <a routerLink="/organization/dashboard" routerLinkActive="active">
+        <a
+          routerLink="/organization/dashboard"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           Dashboard
         </a>
-
-        <a routerLink="/organization/opportunities" routerLinkActive="active">
+        <a
+          routerLink="/organization/opportunities"
+          routerLinkActive="active"
+        >
           My Opportunities
         </a>
-
-        <a routerLink="/organization/opportunities/new" routerLinkActive="active">
+        <a
+          routerLink="/organization/opportunities/new"
+          routerLinkActive="active"
+        >
           Post Opportunity
         </a>
-
-        <a routerLink="/organization/applicants" routerLinkActive="active">
+        <a
+          routerLink="/organization/applicants"
+          routerLinkActive="active"
+        >
           Applicants
         </a>
       }
-
       @if (role === 'admin') {
-        <a routerLink="/admin/dashboard" routerLinkActive="active">
+        <a
+          routerLink="/admin/dashboard"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           Dashboard
         </a>
-
-        <a routerLink="/admin/users" routerLinkActive="active">
+        <a
+          routerLink="/admin/users"
+          routerLinkActive="active"
+        >
           Users
         </a>
-
-        <a routerLink="/admin/opportunities" routerLinkActive="active">
+        <a
+          routerLink="/admin/opportunities"
+          routerLinkActive="active"
+        >
           Opportunities
         </a>
       }
-
-      @if (auth.isAuthenticated()) {
+      @if (auth.currentUser()) {
         <div class="user-area">
-          <span class="welcome">
-            {{ userName }}
-          </span>
-
-          <span class="role-badge">
-            {{ role }}
-          </span>
-
-          <button type="button" class="logout-button" (click)="logout()">
+          <div class="user-info">
+            <span class="welcome">
+              {{ userName }}
+            </span>
+            <span class="role-badge">
+              {{ roleLabel }}
+            </span>
+          </div>
+          <button
+            type="button"
+            class="logout-button"
+            (click)="logout()"
+          >
             Logout
           </button>
         </div>
       }
-
     </div>
   </div>
 </nav>

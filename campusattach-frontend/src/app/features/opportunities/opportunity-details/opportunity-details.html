@@ -1,4 +1,4 @@
-<div class="page">
+﻿<div class="page">
 
   <header class="topbar">
     <div class="brand">
@@ -10,45 +10,45 @@
     </div>
 
     <a routerLink="/opportunities" class="back-link">
-      ← Back to Opportunities
+      â† Back to Opportunities
     </a>
   </header>
 
   <main class="content">
 
-    @if (loading) {
+    @if (loading()) {
       <section class="hero-card">
         <h1>Loading opportunity...</h1>
       </section>
     }
 
-    @if (errorMessage && !opportunity) {
+    @if (errorMessage() && !opportunity()) {
       <section class="hero-card">
         <h1>Unable to load opportunity</h1>
-        <p>{{ errorMessage }}</p>
+        <p>{{ errorMessage() }}</p>
       </section>
     }
 
-    @if (opportunity) {
+    @if (opportunity()) {
 
       <section class="hero-card">
 
         <div class="badge">
-          {{ opportunity.type }}
+          {{ opportunity().type }}
         </div>
 
-        <h1>{{ opportunity.title }}</h1>
+        <h1>{{ opportunity().title }}</h1>
 
         <p class="organization">
-          {{ opportunity.organization?.name || 'Organization' }}
+          {{ opportunity().organization?.name || 'Organization' }}
         </p>
 
         <div class="meta">
-          <span>📍 {{ opportunity.location }}</span>
+          <span>ðŸ“ {{ opportunity().location }}</span>
 
           <span>
-            📅 Application deadline:
-            {{ opportunity.deadline | date:'mediumDate' }}
+            ðŸ“… Application deadline:
+            {{ opportunity().deadline | date:'mediumDate' }}
           </span>
         </div>
 
@@ -61,13 +61,13 @@
           <h2>Opportunity Description</h2>
 
           <p>
-            {{ opportunity.description }}
+            {{ opportunity().description }}
           </p>
 
           <h2>Requirements</h2>
 
-          @if (opportunity.requirements) {
-            <p>{{ opportunity.requirements }}</p>
+          @if (opportunity().requirements) {
+            <p>{{ opportunity().requirements }}</p>
           } @else {
             <p>No specific requirements provided.</p>
           }
@@ -78,7 +78,7 @@
 
           <h2>Ready to apply?</h2>
 
-          @if (applied) {
+          @if (applied()) {
 
             <div class="success">
               You have already applied for this opportunity.
@@ -97,18 +97,18 @@
               Submit your application for this opportunity.
             </p>
 
-            @if (errorMessage) {
+            @if (errorMessage()) {
               <div class="success">
-                {{ errorMessage }}
+                {{ errorMessage() }}
               </div>
             }
 
             <button
               class="primary-button"
               (click)="apply()"
-              [disabled]="applying"
+              [disabled]="applying()"
             >
-              {{ applying ? 'Submitting...' : 'Apply Now' }}
+              {{ applying() ? 'Submitting...' : 'Apply Now' }}
             </button>
 
           }

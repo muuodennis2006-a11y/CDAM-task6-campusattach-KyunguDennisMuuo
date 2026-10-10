@@ -1,72 +1,117 @@
-<div class="auth-page">
-  <div class="auth-card">
-
-    <div class="brand">
-      <div class="brand-icon">CA</div>
-
-      <div>
-        <h1>CampusAttach</h1>
-        <p>Student Attachment & Internship Platform</p>
+﻿<div class="auth-page">
+  <div class="auth-shell">
+    <section class="auth-intro">
+      <div class="intro-top">
+        <div class="brand-mark">CA</div>
+        <span class="brand-name">CampusAttach</span>
       </div>
-    </div>
-
-    <div class="auth-heading">
-      <h2>Welcome back</h2>
-      <p>Sign in to continue to your account.</p>
-    </div>
-
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
-      <div class="form-group">
-        <label for="email">Email address</label>
-
-        <input
-          id="email"
-          type="email"
-          formControlName="email"
-          placeholder="student@example.com"
-        />
-
-        @if (submitted && loginForm.controls.email.invalid) {
-          <small class="error">
-            Please enter a valid email address.
-          </small>
-        }
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-
-        <input
-          id="password"
-          type="password"
-          formControlName="password"
-          placeholder="Enter your password"
-        />
-
-        @if (submitted && loginForm.controls.password.invalid) {
-          <small class="error">
-            Password must contain at least 6 characters.
-          </small>
-        }
-      </div>
-
-      @if (errorMessage) {
-        <div class="alert">
-          {{ errorMessage }}
+      <div class="intro-content">
+        <span class="eyebrow">STUDENT • ATTACHMENT • INTERNSHIP</span>
+        <h1>
+          Find where your
+          <span>next opportunity</span>
+          begins.
+        </h1>
+        <p>
+          A simple platform connecting students with organizations
+          offering attachment and internship opportunities.
+        </p>
+        <div class="intro-points">
+          <div>
+            <span class="point-icon">✓</span>
+            <span>Discover relevant opportunities</span>
+          </div>
+          <div>
+            <span class="point-icon">✓</span>
+            <span>Apply and track your applications</span>
+          </div>
+          <div>
+            <span class="point-icon">✓</span>
+            <span>Connect with organizations</span>
+          </div>
         </div>
-      }
-
-      <button type="submit" class="primary-button">
-        Sign In
-      </button>
-
-    </form>
-
-    <p class="auth-footer">
-      Don't have an account?
-      <a routerLink="/register">Create an account</a>
-    </p>
-
+      </div>
+      <div class="intro-footer">
+        <span>Built for students and opportunity providers</span>
+      </div>
+    </section>
+    <section class="auth-panel">
+      <div class="mobile-brand">
+        <div class="brand-mark">CA</div>
+        <span class="brand-name">CampusAttach</span>
+      </div>
+      <div class="form-header">
+        <span class="form-label">WELCOME BACK</span>
+        <h2>Sign in to your account</h2>
+        <p>
+          Continue your journey towards your next attachment or internship.
+        </p>
+      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <div class="input-wrap">
+            <span class="input-icon">@</span>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+            />
+          </div>
+          @if (submitted && loginForm.controls.email.invalid) {
+            <small class="field-error">
+              Please enter a valid email address.
+            </small>
+          }
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">●</span>
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            />
+          </div>
+          @if (submitted && loginForm.controls.password.invalid) {
+            <small class="field-error">
+              Password must contain at least 6 characters.
+            </small>
+          }
+        </div>
+        @if (errorMessage) {
+          <div class="alert">
+            <span class="alert-icon">!</span>
+            <span>{{ errorMessage }}</span>
+          </div>
+        }
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="loading"
+        >
+          @if (loading) {
+            <span class="spinner"></span>
+            Signing in...
+          } @else {
+            Sign In
+            <span class="button-arrow">→</span>
+          }
+        </button>
+      </form>
+      <p class="auth-footer">
+        Don't have an account?
+        <a routerLink="/register">Create an account</a>
+      </p>
+      <div class="security-note">
+        <span>🔒</span>
+        <span>Your account is protected with secure authentication.</span>
+      </div>
+    </section>
   </div>
 </div>
