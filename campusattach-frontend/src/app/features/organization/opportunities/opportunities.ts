@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+﻿import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { timeout } from 'rxjs/operators';
@@ -40,7 +40,7 @@ export class Opportunities implements OnInit {
     this.http.get<any>(`${this.api}/opportunities/mine`).pipe(timeout({ first: 15000 })).subscribe({
       next: (rows) => {
         const list = Array.isArray(rows) ? rows : (Array.isArray(rows?.data) ? rows.data : []);
-        this.opportunities = list.map((item) => ({
+        this.opportunities = list.map((item: any) => ({
           id: item.id,
           title: item.title,
           type: String(item.type || '').toLowerCase() === 'attachment'
@@ -76,3 +76,4 @@ export class Opportunities implements OnInit {
     });
   }
 }
+
