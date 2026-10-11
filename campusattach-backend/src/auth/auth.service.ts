@@ -18,7 +18,7 @@ export class AuthService {
 
   async register(dto: RegisterDto) {
     const existingUser = await this.prisma.user.findUnique({
-      where: { email: dto.email },
+      where: { email: dto.email.trim().toLowerCase() },
     });
 
     if (existingUser) {
@@ -31,7 +31,7 @@ export class AuthService {
       const createdUser = await tx.user.create({
         data: {
           fullName: dto.fullName,
-          email: dto.email,
+          email: dto.email.trim().toLowerCase(),
           passwordHash,
           role: dto.role,
         },
@@ -65,7 +65,7 @@ export class AuthService {
 
   async login(dto: LoginDto) {
     const user = await this.prisma.user.findUnique({
-      where: { email: dto.email },
+      where: { email: dto.email.trim().toLowerCase() },
     });
 
     if (!user || !(await bcrypt.compare(dto.password, user.passwordHash))) {

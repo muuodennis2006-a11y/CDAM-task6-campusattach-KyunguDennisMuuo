@@ -1,0 +1,2499 @@
+﻿===== CAMPUSATTACH ORGANIZATION SOURCE DUMP =====
+Generated: 10/02/2026 13:58:43
+Project: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend
+
+
+===== PATH: .\src\app\features\organization =====
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css =====
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.topbar {
+  min-height: 72px;
+  padding: 0 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.brand {
+  color: #1d4ed8;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.role {
+  color: #6b7280;
+  margin-left: 10px;
+  font-size: 0.9rem;
+}
+
+.back-link {
+  color: #1d4ed8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 45px 20px;
+}
+
+.heading {
+  margin-bottom: 25px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #1d4ed8;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.heading h1 {
+  margin: 0 0 8px;
+  color: #111827;
+}
+
+.heading p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.applicants-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.card-header span {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 16px 18px;
+  text-align: left;
+  border-bottom: 1px solid #eef0f3;
+  white-space: nowrap;
+}
+
+th {
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+td {
+  color: #374151;
+}
+
+td select {
+  padding: 7px 10px;
+  border-radius: 7px;
+  border: 1px solid #d1d5db;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+td select.pending {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+td select.shortlisted {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+td select.accepted {
+  background: #dcfce7;
+  color: #166534;
+}
+
+td select.rejected {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.status-guide {
+  margin-top: 30px;
+  background: white;
+  padding: 25px;
+  border: 1px solid #e5e7eb;
+  border-radius: 15px;
+}
+
+.status-guide h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.guide-grid > div {
+  position: relative;
+  padding-left: 20px;
+}
+
+.guide-grid p {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.dot {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.pending-dot {
+  background: #f97316;
+}
+
+.shortlisted-dot {
+  background: #2563eb;
+}
+
+.accepted-dot {
+  background: #16a34a;
+}
+
+.rejected-dot {
+  background: #dc2626;
+}
+
+@media (max-width: 850px) {
+  .guide-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .guide-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html =====
+<div class="page">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">Organization Portal</span>
+    </div>
+
+    <a routerLink="/organization/dashboard" class="back-link">
+      ← Dashboard
+    </a>
+  </header>
+
+  <main class="container">
+    <section class="heading">
+      <p class="eyebrow">Organization</p>
+      <h1>Applicants</h1>
+      <p>Review students who have applied for your opportunities.</p>
+    </section>
+
+    <section class="applicants-card">
+      <div class="card-header">
+        <h2>Student Applications</h2>
+        <span>{{ applicants.length }} applicants</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Opportunity</th>
+              <th>University</th>
+              <th>Course</th>
+              <th>Applied</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (applicant of applicants; track applicant.id) {
+              <tr>
+                <td>
+                  <strong>{{ applicant.studentName }}</strong>
+                </td>
+
+                <td>{{ applicant.opportunity }}</td>
+
+                <td>{{ applicant.university }}</td>
+
+                <td>{{ applicant.course }}</td>
+
+                <td>{{ applicant.appliedDate }}</td>
+
+                <td>
+                  <select
+                    [value]="applicant.status"
+                    (change)="updateStatus(
+                      applicant.id,
+                      $any($event.target).value
+                    )"
+                    [class.pending]="applicant.status === 'Pending'"
+                    [class.shortlisted]="applicant.status === 'Shortlisted'"
+                    [class.accepted]="applicant.status === 'Accepted'"
+                    [class.rejected]="applicant.status === 'Rejected'"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Shortlisted">Shortlisted</option>
+                    <option value="Accepted">Accepted</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="status-guide">
+      <h2>Application Status Guide</h2>
+
+      <div class="guide-grid">
+        <div>
+          <span class="dot pending-dot"></span>
+          <strong>Pending</strong>
+          <p>Application is waiting for review.</p>
+        </div>
+
+        <div>
+          <span class="dot shortlisted-dot"></span>
+          <strong>Shortlisted</strong>
+          <p>Student has been selected for further consideration.</p>
+        </div>
+
+        <div>
+          <span class="dot accepted-dot"></span>
+          <strong>Accepted</strong>
+          <p>Student has been selected for the opportunity.</p>
+        </div>
+
+        <div>
+          <span class="dot rejected-dot"></span>
+          <strong>Rejected</strong>
+          <p>Application was not selected.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.spec.ts =====
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Applicants } from './applicants';
+
+describe('Applicants', () => {
+  let component: Applicants;
+  let fixture: ComponentFixture<Applicants>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Applicants],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(Applicants);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts =====
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
+type ApplicantStatus = 'Pending' | 'Shortlisted' | 'Accepted' | 'Rejected';
+
+interface Applicant {
+  id: number;
+  studentName: string;
+  opportunity: string;
+  university: string;
+  course: string;
+  appliedDate: string;
+  status: ApplicantStatus;
+}
+
+@Component({
+  selector: 'app-applicants',
+  standalone: true,
+  imports: [RouterLink],
+  templateUrl: './applicants.html',
+  styleUrl: './applicants.css'
+})
+export class Applicants {
+  applicants: Applicant[] = [
+    {
+      id: 1,
+      studentName: 'Brian Mwangi',
+      opportunity: 'Software Development Intern',
+      university: 'Chuka University',
+      course: 'Computer Science',
+      appliedDate: '2026-09-12',
+      status: 'Pending'
+    },
+    {
+      id: 2,
+      studentName: 'Mary Wanjiku',
+      opportunity: 'Software Development Intern',
+      university: 'Kenyatta University',
+      course: 'Information Technology',
+      appliedDate: '2026-09-11',
+      status: 'Shortlisted'
+    },
+    {
+      id: 3,
+      studentName: 'David Kamau',
+      opportunity: 'QA Testing Attachment',
+      university: 'Chuka University',
+      course: 'Computer Science',
+      appliedDate: '2026-09-10',
+      status: 'Pending'
+    },
+    {
+      id: 4,
+      studentName: 'Faith Njeri',
+      opportunity: 'QA Testing Attachment',
+      university: 'Mount Kenya University',
+      course: 'Software Engineering',
+      appliedDate: '2026-09-08',
+      status: 'Accepted'
+    }
+  ];
+
+  updateStatus(id: number, status: string): void {
+    const applicant = this.applicants.find(item => item.id === id);
+
+    if (!applicant) return;
+
+    applicant.status = status as ApplicantStatus;
+  }
+}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css =====
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.page-shell {
+  min-height: 100vh;
+}
+
+.topbar {
+  min-height: 72px;
+  padding: 0 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.brand {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1d4ed8;
+}
+
+.role {
+  margin-left: 12px;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.welcome {
+  color: #374151;
+}
+
+.logout-btn {
+  border: none;
+  background: #111827;
+  color: white;
+  padding: 9px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dashboard {
+  max-width: 1200px;
+  margin: auto;
+  padding: 45px 6%;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  padding: 35px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: white;
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hero h1 {
+  margin: 0 0 10px;
+  font-size: 2rem;
+}
+
+.hero p {
+  margin: 0;
+  max-width: 650px;
+  line-height: 1.6;
+}
+
+.primary-btn {
+  display: inline-block;
+  background: white;
+  color: #1d4ed8;
+  padding: 13px 20px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 38px;
+}
+
+.stat-card {
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+}
+
+.stat-card strong,
+.stat-card span {
+  display: block;
+}
+
+.stat-card strong {
+  font-size: 1.6rem;
+  color: #111827;
+}
+
+.stat-card div span {
+  margin-top: 3px;
+  color: #6b7280;
+  font-size: 0.88rem;
+}
+
+.actions-section h2 {
+  color: #111827;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.action-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 25px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.action-icon {
+  font-size: 2rem;
+}
+
+.action-card h3 {
+  margin-bottom: 8px;
+}
+
+.action-card p {
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    padding: 0 20px;
+  }
+
+  .dashboard {
+    padding: 25px 20px;
+  }
+}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html =====
+<div class="page-shell">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">Organization Portal</span>
+    </div>
+
+    <div class="top-actions">
+      <span class="welcome">Welcome, {{ user()?.fullName }}</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Organization Dashboard</p>
+        <h1>Manage your internship opportunities</h1>
+        <p>
+          Post opportunities, manage your listings and review student
+          applications from one place.
+        </p>
+      </div>
+
+      <a routerLink="/organization/opportunities/new" class="primary-btn">
+        + Post Opportunity
+      </a>
+    </section>
+
+    <section class="stats">
+      <article class="stat-card">
+        <span class="stat-icon">📢</span>
+        <div>
+          <strong>8</strong>
+          <span>Posted Opportunities</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">👥</span>
+        <div>
+          <strong>34</strong>
+          <span>Total Applicants</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">⭐</span>
+        <div>
+          <strong>12</strong>
+          <span>Shortlisted</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">⏳</span>
+        <div>
+          <strong>5</strong>
+          <span>Pending Reviews</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="actions-section">
+      <h2>Quick Actions</h2>
+
+      <div class="action-grid">
+        <a routerLink="/organization/opportunities/new" class="action-card">
+          <span class="action-icon">➕</span>
+          <h3>Post Opportunity</h3>
+          <p>Create a new attachment or internship opportunity.</p>
+        </a>
+
+        <a routerLink="/organization/opportunities" class="action-card">
+          <span class="action-icon">📋</span>
+          <h3>Manage Opportunities</h3>
+          <p>View, edit and manage your posted opportunities.</p>
+        </a>
+
+        <a routerLink="/organization/applicants" class="action-card">
+          <span class="action-icon">👥</span>
+          <h3>View Applicants</h3>
+          <p>Review students who have applied to your opportunities.</p>
+        </a>
+      </div>
+    </section>
+  </main>
+</div>
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.spec.ts =====
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Dashboard } from './dashboard';
+
+describe('Dashboard', () => {
+  let component: Dashboard;
+  let fixture: ComponentFixture<Dashboard>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Dashboard],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(Dashboard);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.ts =====
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { Auth } from '../../../core/services/auth';
+
+@Component({
+  selector: 'app-dashboard',
+  standalone: true,
+  imports: [RouterLink],
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css'
+})
+export class Dashboard {
+  private auth = inject(Auth);
+  private router = inject(Router);
+
+  user = this.auth.currentUser;
+
+  logout(): void {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
+}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css =====
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.topbar {
+  min-height: 72px;
+  padding: 0 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.brand {
+  color: #1d4ed8;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.role {
+  color: #6b7280;
+  margin-left: 10px;
+  font-size: 0.9rem;
+}
+
+.back-link {
+  color: #1d4ed8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 45px 20px;
+}
+
+.page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #1d4ed8;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.page-heading h1 {
+  margin: 0 0 8px;
+  color: #111827;
+}
+
+.page-heading p {
+  color: #6b7280;
+  margin: 0;
+}
+
+.primary-btn {
+  background: #2563eb;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.table-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.table-header {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.table-header span {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 16px 18px;
+  text-align: left;
+  border-bottom: 1px solid #eef0f3;
+  white-space: nowrap;
+}
+
+th {
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+td {
+  color: #374151;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.status.closed {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.applicant-count {
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 7px 11px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.edit-btn {
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+
+.delete-btn {
+  border: none;
+  color: #b91c1c;
+  background: #fef2f2;
+}
+
+.success-message {
+  background: #dcfce7;
+  color: #166534;
+  padding: 14px 18px;
+  border-radius: 9px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 700px) {
+  .page-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .primary-btn {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html =====
+<div class="page">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">Organization Portal</span>
+    </div>
+
+    <a routerLink="/organization/dashboard" class="back-link">
+      ← Dashboard
+    </a>
+  </header>
+
+  <main class="container">
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow">Organization</p>
+        <h1>Manage Opportunities</h1>
+        <p>View and manage opportunities posted by your organization.</p>
+      </div>
+
+      <a routerLink="/organization/opportunities/new" class="primary-btn">
+        + Post Opportunity
+      </a>
+    </section>
+
+    @if (deletedId) {
+      <div class="success-message">
+        ✓ Opportunity deleted successfully.
+      </div>
+    }
+
+    <section class="table-card">
+      <div class="table-header">
+        <h2>Posted Opportunities</h2>
+        <span>{{ opportunities.length }} opportunities</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Opportunity</th>
+              <th>Type</th>
+              <th>Location</th>
+              <th>Deadline</th>
+              <th>Applicants</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (opportunity of opportunities; track opportunity.id) {
+              <tr>
+                <td>
+                  <strong>{{ opportunity.title }}</strong>
+                </td>
+
+                <td>{{ opportunity.type }}</td>
+
+                <td>{{ opportunity.location }}</td>
+
+                <td>{{ opportunity.deadline }}</td>
+
+                <td>
+                  <span class="applicant-count">
+                    {{ opportunity.applicants }}
+                  </span>
+                </td>
+
+                <td>
+                  <span
+                    class="status"
+                    [class.closed]="opportunity.status === 'Closed'"
+                  >
+                    {{ opportunity.status }}
+                  </span>
+                </td>
+
+                <td>
+                  <div class="actions">
+                    <a
+                      [routerLink]="['/organization/opportunities/new']"
+                      [queryParams]="{ id: opportunity.id }"
+                      class="edit-btn"
+                    >
+                      Edit
+                    </a>
+
+                    <button
+                      type="button"
+                      class="delete-btn"
+                      (click)="deleteOpportunity(opportunity.id)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.spec.ts =====
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Opportunities } from './opportunities';
+
+describe('Opportunities', () => {
+  let component: Opportunities;
+  let fixture: ComponentFixture<Opportunities>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Opportunities],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(Opportunities);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts =====
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
+interface PostedOpportunity {
+  id: number;
+  title: string;
+  type: string;
+  location: string;
+  deadline: string;
+  applicants: number;
+  status: string;
+}
+
+@Component({
+  selector: 'app-opportunities',
+  standalone: true,
+  imports: [RouterLink],
+  templateUrl: './opportunities.html',
+  styleUrl: './opportunities.css'
+})
+export class Opportunities {
+  opportunities: PostedOpportunity[] = [
+    {
+      id: 1,
+      title: 'Software Development Intern',
+      type: 'Internship',
+      location: 'Nairobi, Kenya',
+      deadline: '2026-10-30',
+      applicants: 14,
+      status: 'Open'
+    },
+    {
+      id: 2,
+      title: 'QA Testing Attachment',
+      type: 'Attachment',
+      location: 'Nairobi, Kenya',
+      deadline: '2026-11-15',
+      applicants: 8,
+      status: 'Open'
+    },
+    {
+      id: 3,
+      title: 'IT Support Intern',
+      type: 'Internship',
+      location: 'Thika, Kenya',
+      deadline: '2026-09-28',
+      applicants: 12,
+      status: 'Closed'
+    }
+  ];
+
+  deletedId: number | null = null;
+
+  deleteOpportunity(id: number): void {
+    const confirmed = confirm(
+      'Are you sure you want to delete this opportunity?'
+    );
+
+    if (!confirmed) return;
+
+    this.opportunities = this.opportunities.filter(
+      opportunity => opportunity.id !== id
+    );
+
+    this.deletedId = id;
+
+    setTimeout(() => {
+      this.deletedId = null;
+    }, 1500);
+  }
+}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css =====
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.topbar {
+  min-height: 72px;
+  padding: 0 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.brand {
+  color: #1d4ed8;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.role {
+  color: #6b7280;
+  margin-left: 10px;
+  font-size: 0.9rem;
+}
+
+.back-link {
+  color: #1d4ed8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.form-container {
+  max-width: 850px;
+  margin: auto;
+  padding: 45px 20px;
+}
+
+.heading {
+  margin-bottom: 25px;
+}
+
+.eyebrow {
+  color: #1d4ed8;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.heading h1 {
+  margin: 0 0 10px;
+  color: #111827;
+}
+
+.heading p {
+  color: #6b7280;
+}
+
+.form-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+}
+
+.field {
+  margin-bottom: 22px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font: inherit;
+  background: white;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.field small {
+  display: block;
+  margin-top: 6px;
+  color: #dc2626;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.cancel-btn,
+.submit-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.cancel-btn {
+  color: #374151;
+  background: #f3f4f6;
+}
+
+.submit-btn {
+  border: none;
+  color: white;
+  background: #2563eb;
+}
+
+.success-message {
+  background: #dcfce7;
+  color: #166534;
+  padding: 14px 18px;
+  border-radius: 9px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 650px) {
+  .two-columns {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-card {
+    padding: 20px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .submit-btn {
+    text-align: center;
+  }
+}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html =====
+<div class="page">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">Organization Portal</span>
+    </div>
+
+    <a routerLink="/organization/dashboard" class="back-link">
+      ← Dashboard
+    </a>
+  </header>
+
+  <main class="form-container">
+    <section class="heading">
+      <p class="eyebrow">Organization</p>
+      <h1>{{ isEditMode ? 'Edit Opportunity' : 'Post New Opportunity' }}</h1>
+      <p>
+        Provide clear information so students can understand and apply for
+        the opportunity.
+      </p>
+    </section>
+
+    @if (saved) {
+      <div class="success-message">
+        ✓ Opportunity saved successfully. Redirecting...
+      </div>
+    }
+
+    <form [formGroup]="opportunityForm" (ngSubmit)="onSubmit()" class="form-card">
+
+      <div class="field">
+        <label for="title">Opportunity Title *</label>
+        <input
+          id="title"
+          type="text"
+          formControlName="title"
+          placeholder="e.g. Software Development Intern"
+        />
+        @if (opportunityForm.controls.title.touched &&
+        opportunityForm.controls.title.invalid) {
+          <small>Please enter a title of at least 5 characters.</small>
+        }
+      </div>
+
+      <div class="two-columns">
+        <div class="field">
+          <label for="type">Opportunity Type *</label>
+          <select id="type" formControlName="type">
+            <option value="Attachment">Attachment</option>
+            <option value="Internship">Internship</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="location">Location *</label>
+          <input
+            id="location"
+            type="text"
+            formControlName="location"
+            placeholder="e.g. Nairobi, Kenya"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="description">Description *</label>
+        <textarea
+          id="description"
+          rows="6"
+          formControlName="description"
+          placeholder="Describe the opportunity..."
+        ></textarea>
+
+        @if (opportunityForm.controls.description.touched &&
+        opportunityForm.controls.description.invalid) {
+          <small>Please provide at least 20 characters.</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="requirements">Requirements *</label>
+        <textarea
+          id="requirements"
+          rows="6"
+          formControlName="requirements"
+          placeholder="List the requirements, one per line..."
+        ></textarea>
+      </div>
+
+      <div class="field">
+        <label for="deadline">Application Deadline *</label>
+        <input
+          id="deadline"
+          type="date"
+          formControlName="deadline"
+        />
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/organization/opportunities" class="cancel-btn">
+          Cancel
+        </a>
+
+        <button type="submit" class="submit-btn">
+          {{ isEditMode ? 'Update Opportunity' : 'Publish Opportunity' }}
+        </button>
+      </div>
+    </form>
+  </main>
+</div>
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.spec.ts =====
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { OpportunityForm } from './opportunity-form';
+
+describe('OpportunityForm', () => {
+  let component: OpportunityForm;
+  let fixture: ComponentFixture<OpportunityForm>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [OpportunityForm],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(OpportunityForm);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts =====
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-opportunity-form',
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterLink],
+  templateUrl: './opportunity-form.html',
+  styleUrl: './opportunity-form.css'
+})
+export class OpportunityForm {
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  isEditMode = false;
+  saved = false;
+
+  opportunityForm = this.fb.nonNullable.group({
+    title: ['', [Validators.required, Validators.minLength(5)]],
+    type: ['Attachment', Validators.required],
+    location: ['', Validators.required],
+    description: ['', [Validators.required, Validators.minLength(20)]],
+    requirements: ['', Validators.required],
+    deadline: ['', Validators.required]
+  });
+
+  constructor() {
+    const id = this.route.snapshot.queryParamMap.get('id');
+
+    if (id) {
+      this.isEditMode = true;
+
+      this.opportunityForm.patchValue({
+        title: 'Software Development Intern',
+        type: 'Internship',
+        location: 'Nairobi, Kenya',
+        description:
+          'Join our software development team and gain practical experience building modern web applications.',
+        requirements:
+          'Basic programming knowledge\nUnderstanding of HTML, CSS and JavaScript\nTeamwork and communication skills',
+        deadline: '2026-10-30'
+      });
+    }
+  }
+
+  onSubmit(): void {
+    if (this.opportunityForm.invalid) {
+      this.opportunityForm.markAllAsTouched();
+      return;
+    }
+
+    const opportunity = this.opportunityForm.getRawValue();
+
+    const stored = JSON.parse(
+      localStorage.getItem('campusattach_opportunities') || '[]'
+    );
+
+    if (this.isEditMode) {
+      stored.push({
+        ...opportunity,
+        id: Date.now(),
+        organizationName: 'Demo Organization'
+      });
+    } else {
+      stored.push({
+        ...opportunity,
+        id: Date.now(),
+        organizationName: 'Demo Organization'
+      });
+    }
+
+    localStorage.setItem(
+      'campusattach_opportunities',
+      JSON.stringify(stored)
+    );
+
+    this.saved = true;
+
+    setTimeout(() => {
+      this.router.navigate(['/organization/opportunities']);
+    }, 800);
+  }
+}
+
+
+===== PATH: .\src\app\core =====
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\guards\auth-guard.spec.ts =====
+import { TestBed } from '@angular/core/testing';
+import { CanActivateFn } from '@angular/router';
+import { authGuard } from './auth-guard';
+
+describe('authGuard', () => {
+  const executeGuard: CanActivateFn = (...guardParameters) =>
+    TestBed.runInInjectionContext(() => authGuard(...guardParameters));
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+  });
+
+  it('should be created', () => {
+    expect(executeGuard).toBeTruthy();
+  });
+});
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\guards\auth-guard.ts =====
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { Auth } from '../services/auth';
+
+export const authGuard: CanActivateFn = () => {
+  const auth = inject(Auth);
+  const router = inject(Router);
+
+  if (auth.isAuthenticated()) {
+    return true;
+  }
+
+  return router.createUrlTree(['/login']);
+};
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\guards\role-guard.ts =====
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { Auth } from '../services/auth';
+import { UserRole } from '../../models/user.model';
+
+export function roleGuard(allowedRoles: UserRole[]): CanActivateFn {
+  return () => {
+    const auth = inject(Auth);
+    const router = inject(Router);
+
+    if (!auth.isAuthenticated()) {
+      return router.createUrlTree(['/login']);
+    }
+
+    const role = auth.getRole();
+
+    if (role && allowedRoles.includes(role)) {
+      return true;
+    }
+
+    if (role === 'student') {
+      return router.createUrlTree(['/student/dashboard']);
+    }
+
+    if (role === 'organization') {
+      return router.createUrlTree(['/organization/dashboard']);
+    }
+
+    if (role === 'admin') {
+      return router.createUrlTree(['/admin/dashboard']);
+    }
+
+    return router.createUrlTree(['/login']);
+  };
+}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\interceptors\auth-interceptor.spec.ts =====
+import { TestBed } from '@angular/core/testing';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { authInterceptor } from './auth-interceptor';
+
+describe('authInterceptor', () => {
+  const interceptor: HttpInterceptorFn = (req, next) =>
+    TestBed.runInInjectionContext(() => authInterceptor(req, next));
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+  });
+
+  it('should be created', () => {
+    expect(interceptor).toBeTruthy();
+  });
+});
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\interceptors\auth-interceptor.ts =====
+import { HttpInterceptorFn } from '@angular/common/http';
+
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const token = localStorage.getItem('campusattach_token');
+
+  if (!token) {
+    return next(req);
+  }
+
+  const authReq = req.clone({
+    setHeaders: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return next(authReq);
+};
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\application.spec.ts =====
+import { TestBed } from '@angular/core/testing';
+import { Application } from './application';
+
+describe('Application', () => {
+  let service: Application;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(Application);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\application.ts =====
+import { Service } from '@angular/core';
+
+@Service()
+export class Application {}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\auth.spec.ts =====
+import { TestBed } from '@angular/core/testing';
+import { Auth } from './auth';
+
+describe('Auth', () => {
+  let service: Auth;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(Auth);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\auth.ts =====
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { User, UserRole } from '../../models/user.model';
+interface AuthUser {
+  id: number;
+  fullName: string;
+  email: string;
+  role: 'STUDENT' | 'ORGANIZATION' | 'ADMIN';
+  isActive: boolean;
+}
+interface AuthResponse {
+  message: string;
+  accessToken: string;
+  user: AuthUser;
+}
+interface RegisterResponse {
+  message: string;
+  user: AuthUser;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class Auth {
+  private readonly apiUrl =
+    'https://campusattach-backend.onrender.com/api';
+  private readonly tokenKey = 'campusattach_token';
+  private readonly roleKey = 'campusattach_role';
+  private readonly userKey = 'campusattach_user';
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
+  currentUser = signal<User | null>(this.getStoredUser());
+  login(email: string, password: string) {
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}/auth/login`,
+      {
+        email: email.trim().toLowerCase(),
+        password
+      }
+    );
+  }
+  register(
+    fullName: string,
+    email: string,
+    password: string,
+    role: UserRole
+  ) {
+    const backendRole =
+      role === 'organization'
+        ? 'ORGANIZATION'
+        : 'STUDENT';
+    return this.http.post<RegisterResponse>(
+      `${this.apiUrl}/auth/register`,
+      {
+        fullName: fullName.trim(),
+        email: email.trim().toLowerCase(),
+        password,
+        role: backendRole
+      }
+    );
+  }
+  saveSession(response: AuthResponse): void {
+    const user = this.mapUser(response.user);
+    localStorage.setItem(
+      this.tokenKey,
+      response.accessToken
+    );
+    localStorage.setItem(
+      this.roleKey,
+      user.role
+    );
+    localStorage.setItem(
+      this.userKey,
+      JSON.stringify(user)
+    );
+    this.currentUser.set(user);
+  }
+  saveRegisteredUser(
+    userData: RegisterResponse['user']
+  ): void {
+    const user = this.mapUser(userData);
+    localStorage.setItem(
+      this.roleKey,
+      user.role
+    );
+    localStorage.setItem(
+      this.userKey,
+      JSON.stringify(user)
+    );
+    this.currentUser.set(user);
+  }
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.roleKey);
+    localStorage.removeItem(this.userKey);
+    this.currentUser.set(null);
+    this.router.navigate(['/login']);
+  }
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem(this.tokenKey);
+  }
+  getRole(): UserRole | null {
+    const role = localStorage.getItem(this.roleKey);
+    if (
+      role === 'student' ||
+      role === 'organization' ||
+      role === 'admin'
+    ) {
+      return role;
+    }
+    return null;
+  }
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+  private mapUser(user: AuthUser): User {
+    return {
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      role: user.role.toLowerCase() as UserRole,
+      isActive: user.isActive
+    };
+  }
+  private getStoredUser(): User | null {
+    const storedUser =
+      localStorage.getItem(this.userKey);
+    if (!storedUser) {
+      return null;
+    }
+    try {
+      const user = JSON.parse(storedUser) as User;
+      if (
+        user.role !== 'student' &&
+        user.role !== 'organization' &&
+        user.role !== 'admin'
+      ) {
+        return null;
+      }
+      return user;
+    } catch {
+      return null;
+    }
+  }
+}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\opportunity.spec.ts =====
+import { TestBed } from '@angular/core/testing';
+import { Opportunity } from './opportunity';
+
+describe('Opportunity', () => {
+  let service: Opportunity;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(Opportunity);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\opportunity.ts =====
+import { Service } from '@angular/core';
+
+@Service()
+export class Opportunity {}
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\user.spec.ts =====
+import { TestBed } from '@angular/core/testing';
+import { User } from './user';
+
+describe('User', () => {
+  let service: User;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(User);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\user.ts =====
+import { Service } from '@angular/core';
+
+@Service()
+export class User {}
+
+
+===== PATH: .\src\app\models =====
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\models\application.model.ts =====
+export type ApplicationStatus =
+  | 'Pending'
+  | 'Shortlisted'
+  | 'Accepted'
+  | 'Rejected';
+
+export interface Application {
+  id: number;
+  opportunityId: number;
+  opportunityTitle: string;
+  organizationName: string;
+  studentName: string;
+  appliedDate: string;
+  status: ApplicationStatus;
+}
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\models\opportunity.model.ts =====
+export type OpportunityType = 'Attachment' | 'Internship';
+
+export type OpportunityStatus = 'Open' | 'Closed';
+
+export interface Opportunity {
+  id: number;
+  title: string;
+  organizationName: string;
+  type: OpportunityType;
+  location: string;
+  description: string;
+  requirements: string[];
+  deadline: string;
+  status: OpportunityStatus;
+  postedDate: string;
+}
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\models\student-profile.model.ts =====
+export interface StudentProfile {
+  id: number;
+  userId: number;
+  fullName: string;
+  email: string;
+  university: string;
+  course: string;
+  yearOfStudy: number;
+  phone: string;
+  skills: string[];
+  bio: string;
+}
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\models\user.model.ts =====
+export type UserRole = 'student' | 'organization' | 'admin';
+
+export interface User {
+  id: number;
+  fullName: string;
+  email: string;
+  role: UserRole;
+  isActive: boolean;
+}
+
+===== PATH: .\src\app\app.routes.ts =====
+
+===== FILE: C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts =====
+import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth-guard';
+import { roleGuard } from './core/guards/role-guard';
+
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./features/auth/login/login').then(m => m.Login)
+  },
+
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./features/auth/register/register').then(m => m.Register)
+  },
+
+  // ------------------------------------------
+  // STUDENT ROUTES
+  // ------------------------------------------
+
+  {
+    path: 'student/dashboard',
+    canActivate: [authGuard, roleGuard(['student'])],
+    loadComponent: () =>
+      import('./features/student/dashboard/dashboard').then(m => m.Dashboard)
+  },
+
+  {
+    path: 'student/profile',
+    canActivate: [authGuard, roleGuard(['student'])],
+    loadComponent: () =>
+      import('./features/student/profile/profile').then(m => m.Profile)
+  },
+
+  {
+    path: 'student/applications',
+    canActivate: [authGuard, roleGuard(['student'])],
+    loadComponent: () =>
+      import('./features/student/applications/applications').then(m => m.Applications)
+  },
+
+  // ------------------------------------------
+  // OPPORTUNITY ROUTES
+  // ------------------------------------------
+
+  {
+    path: 'opportunities',
+    canActivate: [authGuard, roleGuard(['student'])],
+    loadComponent: () =>
+      import('./features/opportunities/opportunity-list/opportunity-list')
+        .then(m => m.OpportunityList)
+  },
+
+  {
+    path: 'opportunities/:id',
+    canActivate: [authGuard, roleGuard(['student'])],
+    loadComponent: () =>
+      import('./features/opportunities/opportunity-details/opportunity-details')
+        .then(m => m.OpportunityDetails)
+  },
+
+  // ------------------------------------------
+  // ORGANIZATION ROUTES
+  // ------------------------------------------
+
+  {
+    path: 'organization/dashboard',
+    canActivate: [authGuard, roleGuard(['organization'])],
+    loadComponent: () =>
+      import('./features/organization/dashboard/dashboard')
+        .then(m => m.Dashboard)
+  },
+
+  {
+    path: 'organization/opportunities',
+    canActivate: [authGuard, roleGuard(['organization'])],
+    loadComponent: () =>
+      import('./features/organization/opportunities/opportunities')
+        .then(m => m.Opportunities)
+  },
+
+  {
+    path: 'organization/opportunities/new',
+    canActivate: [authGuard, roleGuard(['organization'])],
+    loadComponent: () =>
+      import('./features/organization/opportunity-form/opportunity-form')
+        .then(m => m.OpportunityForm)
+  },
+
+  {
+    path: 'organization/applicants',
+    canActivate: [authGuard, roleGuard(['organization'])],
+    loadComponent: () =>
+      import('./features/organization/applicants/applicants')
+        .then(m => m.Applicants)
+  },
+
+  // ------------------------------------------
+  // ADMIN ROUTES
+  // ------------------------------------------
+
+  {
+    path: 'admin/dashboard',
+    canActivate: [authGuard, roleGuard(['admin'])],
+    loadComponent: () =>
+      import('./features/admin/dashboard/dashboard')
+        .then(m => m.Dashboard)
+  },
+
+  {
+    path: 'admin/users',
+    canActivate: [authGuard, roleGuard(['admin'])],
+    loadComponent: () =>
+      import('./features/admin/users/users')
+        .then(m => m.Users)
+  },
+
+  {
+    path: 'admin/opportunities',
+    canActivate: [authGuard, roleGuard(['admin'])],
+    loadComponent: () =>
+      import('./features/admin/opportunities/opportunities')
+        .then(m => m.Opportunities)
+  },
+
+  {
+    path: '**',
+    redirectTo: 'login'
+  }
+];
+
+
+===== API URL REFERENCES =====
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.config.ts:6: import { authInterceptor } from './core/interceptors/auth-interceptor';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:2: import { authGuard } from './core/guards/auth-guard';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:15: import('./features/auth/login/login').then(m => m.Login)
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:21: import('./features/auth/register/register').then(m => m.Register)
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:43: path: 'student/applications',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:46: import('./features/student/applications/applications').then(m => m.Applications)
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:57: import('./features/opportunities/opportunity-list/opportunity-list')
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:65: import('./features/opportunities/opportunity-details/opportunity-details')
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:82: path: 'organization/opportunities',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:85: import('./features/organization/opportunities/opportunities')
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:90: path: 'organization/opportunities/new',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:126: path: 'admin/opportunities',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.routes.ts:129: import('./features/admin/opportunities/opportunities')
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\app.ts:4: import { Auth } from './core/services/auth';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\guards\auth-guard.spec.ts:3: import { authGuard } from './auth-guard';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\guards\auth-guard.ts:3: import { Auth } from '../services/auth';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\guards\role-guard.ts:3: import { Auth } from '../services/auth';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\interceptors\auth-interceptor.spec.ts:3: import { authInterceptor } from './auth-interceptor';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\auth.spec.ts:2: import { Auth } from './auth';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\auth.ts:25: private readonly apiUrl =
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\auth.ts:26: 'https://campusattach-backend.onrender.com/api';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\auth.ts:34: return this.http.post<AuthResponse>(
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\auth.ts:35: `${this.apiUrl}/auth/login`,
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\auth.ts:52: return this.http.post<RegisterResponse>(
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\core\services\auth.ts:53: `${this.apiUrl}/auth/register`,
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\admin\dashboard\dashboard.ts:3: import { Auth } from '../../../core/services/auth';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\admin\opportunities\opportunities.spec.ts:2: import { Opportunities } from './opportunities';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\admin\opportunities\opportunities.ts:20: templateUrl: './opportunities.html',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\admin\opportunities\opportunities.ts:21: styleUrl: './opportunities.css'
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\auth\login\login.ts:8: import { Auth } from '../../../core/services/auth';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\auth\register\register.ts:8: import { Auth } from '../../../core/services/auth';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\opportunities\opportunity-details\opportunity-details.ts:35: private readonly apiUrl =
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\opportunities\opportunity-details\opportunity-details.ts:36: 'https://campusattach-backend.onrender.com/api';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\opportunities\opportunity-details\opportunity-details.ts:89: `${this.apiUrl}/opportunities/${id}`
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\opportunities\opportunity-details\opportunity-details.ts:150: `${this.apiUrl}/opportunities/${opportunity.id}/applications`,
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\opportunities\opportunity-list\opportunity-list.ts:46: private readonly apiUrl =
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\opportunities\opportunity-list\opportunity-list.ts:47: 'https://campusattach-backend.onrender.com/api';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\opportunities\opportunity-list\opportunity-list.ts:118: `${this.apiUrl}/opportunities?status=OPEN&page=1&limit=50`
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.ts:3: import { Auth } from '../../../core/services/auth';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.spec.ts:2: import { Opportunities } from './opportunities';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:18: templateUrl: './opportunities.html',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:19: styleUrl: './opportunities.css'
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:86: this.router.navigate(['/organization/opportunities']);
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\applications\applications.spec.ts:2: import { Applications } from './applications';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\applications\applications.ts:10: templateUrl: './applications.html',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\applications\applications.ts:11: styleUrl: './applications.css'
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\applications\applications.ts:17: private readonly apiUrl =
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\applications\applications.ts:18: 'https://campusattach-backend.onrender.com/api';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\applications\applications.ts:35: `${this.apiUrl}/applications/my`
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\dashboard\dashboard.ts:18: } from '../../../core/services/auth';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\dashboard\dashboard.ts:44: private readonly apiUrl =
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\dashboard\dashboard.ts:45: 'https://campusattach-backend.onrender.com/api';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\dashboard\dashboard.ts:66: `${this.apiUrl}/opportunities?status=OPEN&page=1&limit=50`
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\dashboard\dashboard.ts:98: `${this.apiUrl}/applications/my`
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\profile\profile.ts:23: } from '../../../core/services/auth';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\profile\profile.ts:41: private readonly apiUrl =
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\profile\profile.ts:42: 'https://campusattach-backend.onrender.com/api';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\profile\profile.ts:115: `${this.apiUrl}/students/profile`
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\student\profile\profile.ts:227: `${this.apiUrl}/students/profile`,
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\shared\navbar\navbar.ts:3: import { Auth } from '../../core/services/auth';
+
+===== HARDCODED/DEMO DATA CHECK =====
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:4: background: #f5f7fb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:14: border-bottom: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:18: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:20: font-weight: 800;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:24: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:30: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:38: padding: 45px 20px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:42: margin-bottom: 25px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:47: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:50: font-size: 0.8rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:55: margin: 0 0 8px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:56: color: #111827;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:61: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:64: .applicants-card {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:66: border: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:67: border-radius: 15px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:75: border-bottom: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:84: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:99: padding: 16px 18px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:107: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:108: font-size: 0.8rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:113: color: #374151;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:119: border: 1px solid #d1d5db;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:131: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:136: color: #166534;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:147: padding: 25px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:148: border: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:149: border-radius: 15px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:160: gap: 18px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:169: margin: 5px 0 0;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:170: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:171: font-size: 0.85rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:181: border-radius: 50%;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:189: background: #2563eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:200: @media (max-width: 850px) {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.css:206: @media (max-width: 500px) {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:5: <span class="role">Organization Portal</span>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:8: <a routerLink="/organization/dashboard" class="back-link">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:15: <p class="eyebrow">Organization</p>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:16: <h1>Applicants</h1>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:17: <p>Review students who have applied for your opportunities.</p>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:20: <section class="applicants-card">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:23: <span>{{ applicants.length }} applicants</span>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:31: <th>Opportunity</th>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:40: @for (applicant of applicants; track applicant.id) {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:43: <strong>{{ applicant.studentName }}</strong>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:46: <td>{{ applicant.opportunity }}</td>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:48: <td>{{ applicant.university }}</td>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:50: <td>{{ applicant.course }}</td>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:52: <td>{{ applicant.appliedDate }}</td>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:56: [value]="applicant.status"
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:58: applicant.id,
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:61: [class.pending]="applicant.status === 'Pending'"
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:62: [class.shortlisted]="applicant.status === 'Shortlisted'"
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:63: [class.accepted]="applicant.status === 'Accepted'"
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:64: [class.rejected]="applicant.status === 'Rejected'"
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.html:98: <p>Student has been selected for the opportunity.</p>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.spec.ts:2: import { Applicants } from './applicants';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.spec.ts:4: describe('Applicants', () => {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.spec.ts:5: let component: Applicants;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.spec.ts:6: let fixture: ComponentFixture<Applicants>;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.spec.ts:10: imports: [Applicants],
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.spec.ts:13: fixture = TestBed.createComponent(Applicants);
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:4: type ApplicantStatus = 'Pending' | 'Shortlisted' | 'Accepted' | 'Rejected';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:6: interface Applicant {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:9: opportunity: string;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:13: status: ApplicantStatus;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:17: selector: 'app-applicants',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:20: templateUrl: './applicants.html',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:21: styleUrl: './applicants.css'
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:23: export class Applicants {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:24: applicants: Applicant[] = [
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:28: opportunity: 'Software Development Intern',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:37: opportunity: 'Software Development Intern',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:46: opportunity: 'QA Testing Attachment',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:55: opportunity: 'QA Testing Attachment',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:57: course: 'Software Engineering',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:58: appliedDate: '2026-09-08',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:64: const applicant = this.applicants.find(item => item.id === id);
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:66: if (!applicant) return;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\applicants\applicants.ts:68: applicant.status = status as ApplicantStatus;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:4: background: #f5f7fb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:18: border-bottom: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:22: font-size: 1.35rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:23: font-weight: 800;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:24: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:29: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:36: gap: 18px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:40: color: #374151;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:45: background: #111827;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:48: border-radius: 8px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:55: padding: 45px 6%;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:63: padding: 35px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:64: border-radius: 18px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:65: background: linear-gradient(135deg, #1d4ed8, #2563eb);
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:71: margin: 0 0 8px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:72: font-size: 0.85rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:73: opacity: 0.85;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:85: max-width: 650px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:92: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:103: gap: 18px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:104: margin-bottom: 38px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:111: border: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:113: gap: 15px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:118: font-size: 1.8rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:128: color: #111827;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:133: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:134: font-size: 0.88rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:138: color: #111827;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:149: border: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:151: padding: 25px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:159: box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:167: margin-bottom: 8px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:171: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:172: line-height: 1.5;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:176: @media (max-width: 800px) {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:195: @media (max-width: 500px) {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.css:205: padding: 25px 20px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:5: <span class="role">Organization Portal</span>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:17: <p class="eyebrow">Organization Dashboard</p>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:18: <h1>Manage your internship opportunities</h1>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:20: Post opportunities, manage your listings and review student
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:25: <a routerLink="/organization/opportunities/new" class="primary-btn">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:26: + Post Opportunity
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:34: <strong>8</strong>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:35: <span>Posted Opportunities</span>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:43: <span>Total Applicants</span>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:58: <strong>5</strong>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:68: <a routerLink="/organization/opportunities/new" class="action-card">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:70: <h3>Post Opportunity</h3>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:71: <p>Create a new attachment or internship opportunity.</p>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:74: <a routerLink="/organization/opportunities" class="action-card">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:76: <h3>Manage Opportunities</h3>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:77: <p>View, edit and manage your posted opportunities.</p>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:80: <a routerLink="/organization/applicants" class="action-card">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:82: <h3>View Applicants</h3>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\dashboard\dashboard.html:83: <p>Review students who have applied to your opportunities.</p>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:4: background: #f5f7fb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:14: border-bottom: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:18: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:20: font-weight: 800;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:24: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:30: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:38: padding: 45px 20px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:45: gap: 25px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:46: margin-bottom: 25px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:51: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:54: font-size: 0.8rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:59: margin: 0 0 8px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:60: color: #111827;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:64: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:69: background: #2563eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:71: padding: 12px 18px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:72: border-radius: 8px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:80: border: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:81: border-radius: 15px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:90: border-bottom: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:99: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:114: padding: 16px 18px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:122: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:123: font-size: 0.8rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:128: color: #374151;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:133: padding: 5px 10px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:136: color: #166534;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:137: font-size: 0.8rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:143: color: #4b5563;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:146: .applicant-count {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:152: gap: 8px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:159: font-size: 0.82rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:166: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:178: color: #166534;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.css:179: padding: 14px 18px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:5: <span class="role">Organization Portal</span>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:8: <a routerLink="/organization/dashboard" class="back-link">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:16: <p class="eyebrow">Organization</p>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:17: <h1>Manage Opportunities</h1>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:18: <p>View and manage opportunities posted by your organization.</p>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:21: <a routerLink="/organization/opportunities/new" class="primary-btn">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:22: + Post Opportunity
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:28: ✓ Opportunity deleted successfully.
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:34: <h2>Posted Opportunities</h2>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:35: <span>{{ opportunities.length }} opportunities</span>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:42: <th>Opportunity</th>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:46: <th>Applicants</th>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:53: @for (opportunity of opportunities; track opportunity.id) {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:56: <strong>{{ opportunity.title }}</strong>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:59: <td>{{ opportunity.type }}</td>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:61: <td>{{ opportunity.location }}</td>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:63: <td>{{ opportunity.deadline }}</td>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:66: <span class="applicant-count">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:67: {{ opportunity.applicants }}
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:74: [class.closed]="opportunity.status === 'Closed'"
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:76: {{ opportunity.status }}
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:83: [routerLink]="['/organization/opportunities/new']"
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:84: [queryParams]="{ id: opportunity.id }"
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.html:93: (click)="deleteOpportunity(opportunity.id)"
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.spec.ts:2: import { Opportunities } from './opportunities';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.spec.ts:4: describe('Opportunities', () => {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.spec.ts:5: let component: Opportunities;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.spec.ts:6: let fixture: ComponentFixture<Opportunities>;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.spec.ts:10: imports: [Opportunities],
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.spec.ts:13: fixture = TestBed.createComponent(Opportunities);
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:4: interface PostedOpportunity {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:10: applicants: number;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:15: selector: 'app-opportunities',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:18: templateUrl: './opportunities.html',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:19: styleUrl: './opportunities.css'
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:21: export class Opportunities {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:22: opportunities: PostedOpportunity[] = [
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:25: title: 'Software Development Intern',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:29: applicants: 14,
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:37: deadline: '2026-11-15',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:38: applicants: 8,
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:46: deadline: '2026-09-28',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:47: applicants: 12,
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:54: deleteOpportunity(id: number): void {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:56: 'Are you sure you want to delete this opportunity?'
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:61: this.opportunities = this.opportunities.filter(
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:62: opportunity => opportunity.id !== id
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunities\opportunities.ts:69: }, 1500);
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:4: background: #f5f7fb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:14: border-bottom: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:18: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:20: font-weight: 800;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:24: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:30: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:36: max-width: 850px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:38: padding: 45px 20px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:42: margin-bottom: 25px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:46: color: #1d4ed8;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:49: font-size: 0.8rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:56: color: #111827;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:60: color: #6b7280;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:67: border: 1px solid #e5e7eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:78: color: #374151;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:87: border: 1px solid #d1d5db;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:88: border-radius: 8px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:101: border-color: #2563eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:126: border-radius: 8px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:130: font-size: 0.95rem;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:134: color: #374151;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:141: background: #2563eb;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:146: color: #166534;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:147: padding: 14px 18px;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.css:152: @media (max-width: 650px) {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:5: <span class="role">Organization Portal</span>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:8: <a routerLink="/organization/dashboard" class="back-link">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:15: <p class="eyebrow">Organization</p>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:16: <h1>{{ isEditMode ? 'Edit Opportunity' : 'Post New Opportunity' }}</h1>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:19: the opportunity.
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:25: ✓ Opportunity saved successfully. Redirecting...
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:29: <form [formGroup]="opportunityForm" (ngSubmit)="onSubmit()" class="form-card">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:32: <label for="title">Opportunity Title *</label>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:37: placeholder="e.g. Software Development Intern"
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:39: @if (opportunityForm.controls.title.touched &&
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:40: opportunityForm.controls.title.invalid) {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:41: <small>Please enter a title of at least 5 characters.</small>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:47: <label for="type">Opportunity Type *</label>
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:71: placeholder="Describe the opportunity..."
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:74: @if (opportunityForm.controls.description.touched &&
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:75: opportunityForm.controls.description.invalid) {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:100: <a routerLink="/organization/opportunities" class="cancel-btn">
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.html:105: {{ isEditMode ? 'Update Opportunity' : 'Publish Opportunity' }}
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.spec.ts:2: import { OpportunityForm } from './opportunity-form';
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.spec.ts:4: describe('OpportunityForm', () => {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.spec.ts:5: let component: OpportunityForm;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.spec.ts:6: let fixture: ComponentFixture<OpportunityForm>;
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.spec.ts:10: imports: [OpportunityForm],
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.spec.ts:13: fixture = TestBed.createComponent(OpportunityForm);
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:10: selector: 'app-opportunity-form',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:13: templateUrl: './opportunity-form.html',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:14: styleUrl: './opportunity-form.css'
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:16: export class OpportunityForm {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:24: opportunityForm = this.fb.nonNullable.group({
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:25: title: ['', [Validators.required, Validators.minLength(5)]],
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:39: this.opportunityForm.patchValue({
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:40: title: 'Software Development Intern',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:44: 'Join our software development team and gain practical experience building modern web applications.',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:53: if (this.opportunityForm.invalid) {
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:54: this.opportunityForm.markAllAsTouched();
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:58: const opportunity = this.opportunityForm.getRawValue();
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:61: localStorage.getItem('campusattach_opportunities') || '[]'
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:66: ...opportunity,
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:68: organizationName: 'Demo Organization'
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:72: ...opportunity,
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:74: organizationName: 'Demo Organization'
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:79: 'campusattach_opportunities',
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:86: this.router.navigate(['/organization/opportunities']);
+C:\Users\Denno\Desktop\CDAM-CampusAttach\CDAM-task6-campusattach-KyunguDennisMuuo\campusattach-frontend\src\app\features\organization\opportunity-form\opportunity-form.ts:87: }, 800);
+
+===== END OF DUMP =====
+

@@ -1,0 +1,160 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 72px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #111827;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: #2563eb;
+  color: white;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.brand strong {
+  display: block;
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.brand small {
+  display: block;
+  color: #6b7280;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nav-content > a {
+  color: #4b5563;
+  text-decoration: none;
+  padding: 9px 11px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.nav-content > a:hover {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.nav-content > a.active {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+  padding-left: 12px;
+  border-left: 1px solid #e5e7eb;
+}
+
+.welcome {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.role-badge {
+  background: #f3f4f6;
+  color: #374151;
+  border-radius: 999px;
+  padding: 5px 9px;
+  font-size: 11px;
+  text-transform: capitalize;
+  font-weight: 700;
+}
+
+.logout-button {
+  border: none;
+  background: #111827;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 9px 13px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.logout-button:hover {
+  background: #374151;
+}
+
+@media (max-width: 900px) {
+  .navbar-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 14px 18px;
+  }
+
+  .nav-content {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .user-area {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-content {
+    gap: 5px;
+  }
+
+  .nav-content > a {
+    font-size: 13px;
+    padding: 8px 9px;
+  }
+
+  .welcome {
+    display: none;
+  }
+
+  .brand small {
+    display: none;
+  }
+}

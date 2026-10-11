@@ -1,4 +1,4 @@
-﻿import { Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -6,6 +6,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
+import { timeout } from 'rxjs/operators';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -32,7 +33,7 @@ export class Login {
     }
     const { email, password } = this.loginForm.getRawValue();
     this.loading = true;
-    this.auth.login(email, password).subscribe({
+    this.auth.login(email, password).pipe(timeout({ first: 15000 })).subscribe({
       next: (response) => {
         this.auth.saveSession(response);
         const role = this.auth.getRole();
@@ -46,9 +47,13 @@ export class Login {
       },
       error: (error) => {
         this.loading = false;
-        this.errorMessage =
-          error?.error?.message ||
-          'Unable to sign in. Please check your email and password.';
+        const message = error?.error?.message;
+        this.errorMessage = error?.name === 'TimeoutError'
+          ? 'The server took too long to respond. Please try again.'
+          : error?.status === 401
+            ? 'Incorrect email or password. Please try again.'
+            : (Array.isArray(message) ? message.join(' ') : message) ||
+              'Unable to sign in. Please check your connection and try again.';
       }
     });
   }

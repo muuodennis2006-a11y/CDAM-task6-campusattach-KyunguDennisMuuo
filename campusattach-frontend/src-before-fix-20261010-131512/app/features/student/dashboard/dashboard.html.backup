@@ -1,0 +1,82 @@
+<div class="dashboard">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">CA</div>
+      <div>
+        <strong>CampusAttach</strong>
+        <span>Student Portal</span>
+      </div>
+    </div>
+
+    <button class="logout-button" (click)="logout()">
+      Logout
+    </button>
+  </header>
+
+  <main class="content">
+
+    <section class="welcome">
+      <div>
+        <p class="eyebrow">STUDENT DASHBOARD</p>
+        <h1>Welcome, {{ user()?.fullName }}</h1>
+        <p>
+          Find attachment and internship opportunities and keep track
+          of your applications.
+        </p>
+      </div>
+    </section>
+
+    <section class="stats">
+
+      <div class="stat-card">
+        <span class="stat-label">Available Opportunities</span>
+        <strong>{{ opportunityCount }}</strong>
+        <span class="stat-note">Currently listed</span>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-label">My Applications</span>
+        <strong>{{ applicationCount }}</strong>
+        <span class="stat-note">Applications submitted</span>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-label">Shortlisted</span>
+        <strong>{{ shortlistedCount }}</strong>
+        <span class="stat-note">Awaiting next step</span>
+      </div>
+
+    </section>
+
+    <section class="actions">
+
+      <a routerLink="/opportunities" class="action-card">
+        <div class="action-icon">🔎</div>
+        <div>
+          <h3>Browse Opportunities</h3>
+          <p>Search and filter attachment and internship opportunities.</p>
+        </div>
+      </a>
+
+      <a routerLink="/student/applications" class="action-card">
+        <div class="action-icon">📋</div>
+        <div>
+          <h3>My Applications</h3>
+          <p>View your applications and track their current status.</p>
+        </div>
+      </a>
+
+      <a routerLink="/student/profile" class="action-card">
+        <div class="action-icon">👤</div>
+        <div>
+          <h3>My Profile</h3>
+          <p>Keep your student information and skills up to date.</p>
+        </div>
+      </a>
+
+    </section>
+
+  </main>
+
+</div>

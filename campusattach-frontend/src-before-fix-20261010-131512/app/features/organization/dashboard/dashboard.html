@@ -1,0 +1,88 @@
+﻿<div class="page-shell">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">Organization Portal</span>
+    </div>
+
+    <div class="top-actions">
+      <span class="welcome">Welcome, {{ user()?.fullName }}</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Organization Dashboard</p>
+        <h1>Manage your internship opportunities</h1>
+        <p>
+          Post opportunities, manage your listings and review student
+          applications from one place.
+        </p>
+      </div>
+
+      <a routerLink="/organization/opportunities/new" class="primary-btn">
+        + Post Opportunity
+      </a>
+    </section>
+
+    <section class="stats">
+      <article class="stat-card">
+        <span class="stat-icon">📢</span>
+        <div>
+          <strong>8</strong>
+          <span>Posted Opportunities</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">👥</span>
+        <div>
+          <strong>34</strong>
+          <span>Total Applicants</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">⭐</span>
+        <div>
+          <strong>12</strong>
+          <span>Shortlisted</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">⏳</span>
+        <div>
+          <strong>5</strong>
+          <span>Pending Reviews</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="actions-section">
+      <h2>Quick Actions</h2>
+
+      <div class="action-grid">
+        <a routerLink="/organization/opportunities/new" class="action-card">
+          <span class="action-icon">➕</span>
+          <h3>Post Opportunity</h3>
+          <p>Create a new attachment or internship opportunity.</p>
+        </a>
+
+        <a routerLink="/organization/opportunities" class="action-card">
+          <span class="action-icon">📋</span>
+          <h3>Manage Opportunities</h3>
+          <p>View, edit and manage your posted opportunities.</p>
+        </a>
+
+        <a routerLink="/organization/applicants" class="action-card">
+          <span class="action-icon">👥</span>
+          <h3>View Applicants</h3>
+          <p>Review students who have applied to your opportunities.</p>
+        </a>
+      </div>
+    </section>
+  </main>
+</div>

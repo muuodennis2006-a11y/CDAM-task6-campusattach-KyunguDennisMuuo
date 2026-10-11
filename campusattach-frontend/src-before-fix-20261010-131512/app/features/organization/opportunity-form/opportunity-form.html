@@ -1,0 +1,110 @@
+﻿<div class="page">
+  <header class="topbar">
+    <div>
+      <span class="brand">CampusAttach</span>
+      <span class="role">Organization Portal</span>
+    </div>
+
+    <a routerLink="/organization/dashboard" class="back-link">
+      ← Dashboard
+    </a>
+  </header>
+
+  <main class="form-container">
+    <section class="heading">
+      <p class="eyebrow">Organization</p>
+      <h1>{{ isEditMode ? 'Edit Opportunity' : 'Post New Opportunity' }}</h1>
+      <p>
+        Provide clear information so students can understand and apply for
+        the opportunity.
+      </p>
+    </section>
+
+    @if (saved) {
+      <div class="success-message">
+        ✓ Opportunity saved successfully. Redirecting...
+      </div>
+    }
+
+    <form [formGroup]="opportunityForm" (ngSubmit)="onSubmit()" class="form-card">
+
+      <div class="field">
+        <label for="title">Opportunity Title *</label>
+        <input
+          id="title"
+          type="text"
+          formControlName="title"
+          placeholder="e.g. Software Development Intern"
+        />
+        @if (opportunityForm.controls.title.touched &&
+        opportunityForm.controls.title.invalid) {
+          <small>Please enter a title of at least 5 characters.</small>
+        }
+      </div>
+
+      <div class="two-columns">
+        <div class="field">
+          <label for="type">Opportunity Type *</label>
+          <select id="type" formControlName="type">
+            <option value="Attachment">Attachment</option>
+            <option value="Internship">Internship</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="location">Location *</label>
+          <input
+            id="location"
+            type="text"
+            formControlName="location"
+            placeholder="e.g. Nairobi, Kenya"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="description">Description *</label>
+        <textarea
+          id="description"
+          rows="6"
+          formControlName="description"
+          placeholder="Describe the opportunity..."
+        ></textarea>
+
+        @if (opportunityForm.controls.description.touched &&
+        opportunityForm.controls.description.invalid) {
+          <small>Please provide at least 20 characters.</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="requirements">Requirements *</label>
+        <textarea
+          id="requirements"
+          rows="6"
+          formControlName="requirements"
+          placeholder="List the requirements, one per line..."
+        ></textarea>
+      </div>
+
+      <div class="field">
+        <label for="deadline">Application Deadline *</label>
+        <input
+          id="deadline"
+          type="date"
+          formControlName="deadline"
+        />
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/organization/opportunities" class="cancel-btn">
+          Cancel
+        </a>
+
+        <button type="submit" class="submit-btn">
+          {{ isEditMode ? 'Update Opportunity' : 'Publish Opportunity' }}
+        </button>
+      </div>
+    </form>
+  </main>
+</div>

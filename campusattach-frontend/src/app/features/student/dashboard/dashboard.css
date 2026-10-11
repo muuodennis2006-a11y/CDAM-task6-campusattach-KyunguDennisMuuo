@@ -1,6 +1,6 @@
 .dashboard {
   min-height: 100vh;
-  background: #f8fafc;
+  background: linear-gradient(180deg, #f1f5ff 0%, #f8fafc 260px);
 }
 
 .topbar {
@@ -92,10 +92,12 @@
 }
 
 .stat-card {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #dbe5f4;
+  border-top: 4px solid #2563eb;
+  border-radius: 14px;
   padding: 24px;
+  box-shadow: 0 8px 22px rgba(31, 61, 120, 0.06);
 }
 
 .stat-label,
@@ -110,6 +112,7 @@
 }
 
 .stat-card strong {
+  color: #172554;
   display: block;
   font-size: 32px;
   margin-bottom: 6px;
@@ -129,9 +132,9 @@
   display: block;
   text-decoration: none;
   color: inherit;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #dbe5f4;
+  border-radius: 14px;
   padding: 24px;
   transition: transform 0.2s, box-shadow 0.2s;
 }

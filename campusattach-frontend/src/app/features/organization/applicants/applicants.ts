@@ -1,6 +1,7 @@
-﻿import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { timeout } from 'rxjs/operators';
 
 type ApplicantStatus = 'Pending' | 'Shortlisted' | 'Accepted' | 'Rejected';
 
@@ -37,21 +38,22 @@ export class Applicants implements OnInit {
     this.loading = true;
     this.errorMessage = '';
 
-    this.http.get<any[]>(`${this.api}/opportunities/mine`).subscribe({
+    this.http.get<any>(`${this.api}/opportunities/mine`).pipe(timeout({ first: 15000 })).subscribe({
       next: (opportunities) => {
-        if (!opportunities?.length) {
+        const list = Array.isArray(opportunities) ? opportunities : (Array.isArray(opportunities?.data) ? opportunities.data : []);
+        if (!list.length) {
           this.applicants = [];
           this.loading = false;
           return;
         }
 
-        let remaining = opportunities.length;
+        let remaining = list.length;
         const all: Applicant[] = [];
 
-        for (const opportunity of opportunities) {
+        for (const opportunity of list) {
           this.http.get<any[]>(
             `${this.api}/opportunities/${opportunity.id}/applications`
-          ).subscribe({
+          ).pipe(timeout({ first: 15000 })).subscribe({
             next: (applications) => {
               for (const application of applications || []) {
                 const profile = application.studentProfile || {};
@@ -90,7 +92,7 @@ export class Applicants implements OnInit {
       },
       error: (error) => {
         this.errorMessage =
-          error?.error?.message || 'Could not load opportunities and applicants.';
+          error?.error?.message || (error?.name === 'TimeoutError' ? 'The server took too long to respond. Please refresh and try again.' : 'Could not load opportunities and applicants. Please check your connection and sign in again if needed.');
         this.loading = false;
       }
     });
@@ -111,7 +113,7 @@ export class Applicants implements OnInit {
 
     this.http.patch(`${this.api}/applications/${id}/status`, {
       status: backendStatus
-    }).subscribe({
+    }).pipe(timeout({ first: 15000 })).subscribe({
       next: () => {
         const applicant = this.applicants.find(item => item.id === id);
         if (applicant) applicant.status = status as ApplicantStatus;

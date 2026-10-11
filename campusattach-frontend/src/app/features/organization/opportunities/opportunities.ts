@@ -1,6 +1,7 @@
-﻿import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { timeout } from 'rxjs/operators';
 
 interface PostedOpportunity {
   id: number;
@@ -36,9 +37,10 @@ export class Opportunities implements OnInit {
     this.loading = true;
     this.errorMessage = '';
 
-    this.http.get<any[]>(`${this.api}/opportunities/mine`).subscribe({
+    this.http.get<any>(`${this.api}/opportunities/mine`).pipe(timeout({ first: 15000 })).subscribe({
       next: (rows) => {
-        this.opportunities = (rows || []).map((item) => ({
+        const list = Array.isArray(rows) ? rows : (Array.isArray(rows?.data) ? rows.data : []);
+        this.opportunities = list.map((item) => ({
           id: item.id,
           title: item.title,
           type: String(item.type || '').toLowerCase() === 'attachment'
@@ -54,7 +56,7 @@ export class Opportunities implements OnInit {
       },
       error: (error) => {
         this.errorMessage =
-          error?.error?.message || 'Could not load your opportunities. Please sign in again.';
+          error?.error?.message || (error?.name === 'TimeoutError' ? 'The server took too long to respond. Please refresh and try again.' : error?.status === 401 ? 'Your session has expired. Please sign in again.' : 'Could not load your opportunities. Please check your connection and try again.');
         this.loading = false;
       }
     });

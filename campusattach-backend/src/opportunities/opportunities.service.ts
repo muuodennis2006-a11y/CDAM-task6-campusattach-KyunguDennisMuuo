@@ -33,7 +33,9 @@ export class OpportunitiesService {
         description: dto.description,
         requirements: dto.requirements,
         deadline: new Date(dto.deadline),
-        status: 'PENDING',
+        // Newly posted opportunities are immediately visible to students.
+        // Admins can still close or reject them from the admin portal.
+        status: 'OPEN',
       },
     });
   }

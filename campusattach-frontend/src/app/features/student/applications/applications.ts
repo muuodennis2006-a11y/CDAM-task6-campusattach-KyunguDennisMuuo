@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-applications',
@@ -31,14 +32,15 @@ export class Applications {
     this.errorMessage = '';
 
     this.http
-      .get<any[]>(
+      .get<any>(
         `${this.apiUrl}/applications/my`
       )
+      .pipe(timeout({ first: 15000 }))
       .subscribe({
         next: data => {
           console.log('My applications from database:', data);
 
-          this.applications = data || [];
+          this.applications = Array.isArray(data) ? data : (Array.isArray(data?.data) ? data.data : []);
           this.loading = false;
         },
 
@@ -50,7 +52,11 @@ export class Applications {
 
           this.errorMessage =
             error?.error?.message ||
-            'Failed to load your applications.';
+            (error?.name === 'TimeoutError'
+              ? 'The server took too long to respond. Please try again.'
+              : error?.status === 401
+                ? 'Your session has expired. Please sign in again.'
+                : 'Failed to load your applications. Please check your connection and try again.');
 
           this.loading = false;
         }

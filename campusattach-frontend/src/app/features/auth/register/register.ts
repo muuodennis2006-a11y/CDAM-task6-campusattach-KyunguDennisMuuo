@@ -1,4 +1,4 @@
-﻿import { Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -7,6 +7,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
 import { UserRole } from '../../../models/user.model';
+import { timeout } from 'rxjs/operators';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -69,7 +70,7 @@ export class Register {
       formValue.email,
       formValue.password,
       role
-    ).subscribe({
+    ).pipe(timeout({ first: 15000 })).subscribe({
       next: (response) => {
         this.loading = false;
         /*
@@ -96,9 +97,12 @@ export class Register {
         this.loading = false;
         const message =
           error?.error?.message;
-        if (Array.isArray(message)) {
-          this.errorMessage =
-            message.join(' ');
+        if (error?.status === 409 || String(message || '').toLowerCase().includes('already registered')) {
+          this.errorMessage = 'Email already registered. Please sign in instead';
+        } else if (error?.name === 'TimeoutError') {
+          this.errorMessage = 'The server took too long to respond. Please try again.';
+        } else if (Array.isArray(message)) {
+          this.errorMessage = message.join(' ');
         } else if (typeof message === 'string') {
           this.errorMessage = message;
         } else {
