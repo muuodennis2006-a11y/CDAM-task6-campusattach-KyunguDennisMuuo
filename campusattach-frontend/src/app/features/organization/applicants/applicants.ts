@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+﻿import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-import { timeout } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { catchError, map, timeout } from 'rxjs/operators';
 
 type ApplicantStatus = 'Pending' | 'Shortlisted' | 'Accepted' | 'Rejected';
 
@@ -34,68 +35,85 @@ export class Applicants implements OnInit {
     this.load();
   }
 
+  private rows(response: any): any[] {
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.data)) return response.data;
+    if (Array.isArray(response?.applications)) return response.applications;
+    if (Array.isArray(response?.items)) return response.items;
+    return [];
+  }
+
   load(): void {
     this.loading = true;
     this.errorMessage = '';
+    this.applicants = [];
 
-    this.http.get<any>(`${this.api}/opportunities/mine`).pipe(timeout({ first: 15000 })).subscribe({
-      next: (opportunities) => {
-        const list = Array.isArray(opportunities) ? opportunities : (Array.isArray(opportunities?.data) ? opportunities.data : []);
-        if (!list.length) {
-          this.applicants = [];
-          this.loading = false;
-          return;
-        }
+    this.http.get<any>(`${this.api}/opportunities/mine`)
+      .pipe(timeout({ first: 15000 }))
+      .subscribe({
+        next: response => {
+          const opportunities = this.rows(response);
 
-        let remaining = list.length;
-        const all: Applicant[] = [];
+          if (!opportunities.length) {
+            this.loading = false;
+            return;
+          }
 
-        for (const opportunity of list) {
-          this.http.get<any[]>(
-            `${this.api}/opportunities/${opportunity.id}/applications`
-          ).pipe(timeout({ first: 15000 })).subscribe({
-            next: (applications) => {
-              for (const application of applications || []) {
-                const profile = application.studentProfile || {};
-                const user = profile.user || {};
+          forkJoin(
+            opportunities.map(opportunity =>
+              this.http.get<any>(
+                `${this.api}/opportunities/${opportunity.id}/applications`
+              ).pipe(
+                timeout({ first: 15000 }),
+                map(result => ({
+                  opportunity,
+                  applications: this.rows(result),
+                  failed: false
+                })),
+                catchError(() => of({
+                  opportunity,
+                  applications: [],
+                  failed: true
+                }))
+              )
+            )
+          ).subscribe(results => {
+            const all: Applicant[] = [];
+
+            for (const result of results) {
+              for (const application of result.applications) {
+                const profile = application.studentProfile || application.student?.studentProfile || {};
+                const user = profile.user || application.student || {};
 
                 all.push({
                   id: application.id,
-                  studentName: user.fullName || 'Student',
-                  opportunity: opportunity.title || 'Opportunity',
+                  studentName: user.fullName || user.name || profile.fullName || 'Student',
+                  opportunity: result.opportunity.title || 'Opportunity',
                   university: profile.university || '—',
                   course: profile.course || '—',
-                  appliedDate: application.appliedDate
-                    ? new Date(application.appliedDate).toLocaleDateString()
+                  appliedDate: application.appliedDate || application.createdAt
+                    ? new Date(application.appliedDate || application.createdAt).toLocaleDateString()
                     : '',
                   status: this.mapStatus(application.status)
                 });
               }
-
-              remaining--;
-              if (remaining === 0) {
-                this.applicants = all;
-                this.loading = false;
-              }
-            },
-            error: (error) => {
-              this.errorMessage =
-                error?.error?.message || 'Some applications could not be loaded.';
-              remaining--;
-              if (remaining === 0) {
-                this.applicants = all;
-                this.loading = false;
-              }
             }
+
+            this.applicants = all;
+            if (results.some(result => result.failed)) {
+              this.errorMessage = 'Some applications could not be loaded. Please refresh to try again.';
+            }
+            this.loading = false;
           });
+        },
+        error: error => {
+          this.errorMessage = error?.error?.message ||
+            (error?.name === 'TimeoutError'
+              ? 'The server took too long to respond. Please refresh and try again.'
+              : 'Could not load opportunities. Please sign in again if your session has expired.');
+          this.loading = false;
         }
-      },
-      error: (error) => {
-        this.errorMessage =
-          error?.error?.message || (error?.name === 'TimeoutError' ? 'The server took too long to respond. Please refresh and try again.' : 'Could not load opportunities and applicants. Please check your connection and sign in again if needed.');
-        this.loading = false;
-      }
-    });
+      });
   }
 
   private mapStatus(status: string): ApplicantStatus {
@@ -118,9 +136,7 @@ export class Applicants implements OnInit {
         const applicant = this.applicants.find(item => item.id === id);
         if (applicant) applicant.status = status as ApplicantStatus;
       },
-      error: (error) => {
-        alert(error?.error?.message || 'Could not update application status.');
-      }
+      error: error => alert(error?.error?.message || 'Could not update application status.')
     });
   }
 }
