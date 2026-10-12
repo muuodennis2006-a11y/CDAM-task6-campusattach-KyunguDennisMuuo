@@ -1,9 +1,8 @@
-﻿
-import { Component, OnInit, inject } from '@angular/core';
+﻿import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
-import { catchError, map, switchMap, timeout } from 'rxjs/operators';
+import { catchError, finalize, map, timeout } from 'rxjs/operators';
 
 type ApplicantStatus = 'Pending' | 'Shortlisted' | 'Accepted' | 'Rejected';
 
@@ -29,18 +28,18 @@ export class Applicants implements OnInit {
   private api = 'https://campusattach-backend.onrender.com/api';
 
   applicants: Applicant[] = [];
-  loading = false;
+  loading = true;
   errorMessage = '';
 
   ngOnInit(): void {
     this.load();
   }
 
-  private rows(response: any): any[] {
-    if (Array.isArray(response)) return response;
-    if (Array.isArray(response?.data)) return response.data;
-    if (Array.isArray(response?.applications)) return response.applications;
-    if (Array.isArray(response?.items)) return response.items;
+  private rows(value: any): any[] {
+    if (Array.isArray(value)) return value;
+    if (Array.isArray(value?.data)) return value.data;
+    if (Array.isArray(value?.applications)) return value.applications;
+    if (Array.isArray(value?.items)) return value.items;
     return [];
   }
 
@@ -51,80 +50,78 @@ export class Applicants implements OnInit {
     this.http.get<any>(`${this.api}/opportunities/mine`).pipe(
       timeout({ first: 20000 }),
       map(response => this.rows(response)),
-      switchMap(opportunities => {
-        if (!opportunities.length) {
-          return of({ applicants: [] as Applicant[], failed: false });
-        }
-
-        return forkJoin(
-          opportunities.map(opportunity =>
-            this.http.get<any>(
-              `${this.api}/opportunities/${opportunity.id}/applications`
-            ).pipe(
-              timeout({ first: 20000 }),
-              map(response => ({
-                opportunity,
-                applications: this.rows(response),
-                failed: false
-              })),
-              catchError(() => of({
-                opportunity,
-                applications: [],
-                failed: true
-              }))
-            )
-          )
+      map(opportunities => opportunities.map(opportunity => ({
+        opportunity,
+        request: this.http.get<any>(
+          `${this.api}/opportunities/${opportunity.id}/applications`
         ).pipe(
-          map(results => {
-            const applicants: Applicant[] = [];
-
-            for (const result of results) {
-              for (const application of result.applications) {
-                const profile = application.studentProfile || {};
-                const user = profile.user || {};
-
-                const date = application.appliedDate || application.createdAt;
-
-                applicants.push({
-                  id: application.id,
-                  studentName: user.fullName || 'Student',
-                  opportunity: result.opportunity.title || 'Opportunity',
-                  university: profile.university || '—',
-                  course: profile.course || '—',
-                  appliedDate: date
-                    ? new Date(date).toLocaleDateString()
-                    : '—',
-                  status: this.mapStatus(application.status)
-                });
-              }
-            }
-
-            return {
-              applicants,
-              failed: results.some(result => result.failed)
-            };
-          })
-        );
-      }),
-      catchError(error => {
-        this.errorMessage =
-          error?.name === 'TimeoutError'
-            ? 'The server took too long to respond. Please try again.'
-            : error?.error?.message ||
-              'Could not load applicants. Please sign in again if your session has expired.';
-
-        return of({ applicants: [] as Applicant[], failed: true });
+          timeout({ first: 20000 }),
+          map(response => ({
+            opportunity,
+            applications: this.rows(response),
+            failed: false
+          })),
+          catchError(() => of({
+            opportunity,
+            applications: [],
+            failed: true
+          }))
+        )
+      }))),
+      map(items => items.map(item => item.request)),
+      map(requests => requests.length ? forkJoin(requests) : of([])),
+      // Flatten the observable returned above.
+      finalize(() => {
+        this.loading = false;
       })
-    ).subscribe(result => {
-      this.applicants = result.applicants;
-
-      if (result.failed && !this.errorMessage) {
-        this.errorMessage =
-          'Some applications could not be loaded. Please try again.';
+    ).subscribe({
+      next: resultsOrObservable => {
+        // The request group is subscribed separately below.
+        if (Array.isArray(resultsOrObservable)) {
+          this.renderResults(resultsOrObservable);
+        } else {
+          resultsOrObservable.subscribe({
+            next: results => this.renderResults(results),
+            error: () => {
+              this.errorMessage = 'Could not load applications. Please refresh and try again.';
+              this.loading = false;
+            },
+            complete: () => this.loading = false
+          });
+        }
+      },
+      error: error => {
+        this.errorMessage = error?.error?.message ||
+          'Could not load opportunities. Please sign in again if your session has expired.';
+        this.loading = false;
       }
-
-      this.loading = false;
     });
+  }
+
+  private renderResults(results: any[]): void {
+    this.applicants = results.flatMap(result =>
+      result.applications.map((application: any): Applicant => {
+        const profile = application.studentProfile || {};
+        const user = profile.user || {};
+
+        return {
+          id: application.id,
+          studentName: user.fullName || user.name || 'Student',
+          opportunity: result.opportunity.title || 'Opportunity',
+          university: profile.university || '—',
+          course: profile.course || '—',
+          appliedDate: (application.appliedDate || application.createdAt)
+            ? new Date(application.appliedDate || application.createdAt).toLocaleDateString()
+            : '',
+          status: this.mapStatus(application.status)
+        };
+      })
+    );
+
+    if (results.some(result => result.failed)) {
+      this.errorMessage = 'Some applications could not be loaded.';
+    }
+    this.loading = false;
   }
 
   private mapStatus(status: string): ApplicantStatus {
@@ -145,13 +142,9 @@ export class Applicants implements OnInit {
     }).pipe(timeout({ first: 15000 })).subscribe({
       next: () => {
         const applicant = this.applicants.find(item => item.id === id);
-        if (applicant) {
-          applicant.status = status as ApplicantStatus;
-        }
+        if (applicant) applicant.status = status as ApplicantStatus;
       },
-      error: error => {
-        alert(error?.error?.message || 'Could not update application status.');
-      }
+      error: error => alert(error?.error?.message || 'Could not update application status.')
     });
   }
 }
