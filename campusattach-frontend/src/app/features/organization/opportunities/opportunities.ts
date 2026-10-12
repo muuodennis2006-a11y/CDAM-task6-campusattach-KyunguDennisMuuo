@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, inject } from '@angular/core';
+﻿import { Component, ChangeDetectorRef, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { timeout } from 'rxjs/operators';
@@ -22,6 +22,7 @@ interface PostedOpportunity {
 })
 export class Opportunities implements OnInit {
   private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
   private api = 'https://campusattach-backend.onrender.com/api';
 
   opportunities: PostedOpportunity[] = [];
@@ -53,11 +54,13 @@ export class Opportunities implements OnInit {
             : item.status === 'REJECTED' ? 'Rejected' : 'Pending'
         }));
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.errorMessage =
           error?.error?.message || (error?.name === 'TimeoutError' ? 'The server took too long to respond. Please refresh and try again.' : error?.status === 401 ? 'Your session has expired. Please sign in again.' : 'Could not load your opportunities. Please check your connection and try again.');
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -76,4 +79,5 @@ export class Opportunities implements OnInit {
     });
   }
 }
+
 

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+﻿import { Component, ChangeDetectorRef, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -14,6 +14,7 @@ import { timeout } from 'rxjs/operators';
 export class Applications {
 
   private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
 
   private readonly apiUrl =
     'https://campusattach-backend.onrender.com/api';
@@ -42,6 +43,7 @@ export class Applications {
 
           this.applications = Array.isArray(data) ? data : (Array.isArray(data?.data) ? data.data : []);
           this.loading = false;
+          this.cdr.detectChanges();
         },
 
         error: error => {
@@ -59,6 +61,7 @@ export class Applications {
                 : 'Failed to load your applications. Please check your connection and try again.');
 
           this.loading = false;
+          this.cdr.detectChanges();
         }
       });
   }
