@@ -1,3 +1,4 @@
+
 <div class="page">
   <header class="topbar">
     <div>
@@ -17,66 +18,72 @@
       <p>Review students who have applied for your opportunities.</p>
     </section>
 
-    @if (errorMessage) { <p class="error-message">{{ errorMessage }}</p> }
-    @if (loading) { <p>Loading applicants from the database...</p> }
-    <section class="applicants-card">
-      <div class="card-header">
-        <h2>Student Applications</h2>
-        <span>{{ applicants.length }} applicants</span>
-      </div>
+    @if (loading) {
+      <p>Loading applicants from the database...</p>
+    }
 
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Student</th>
-              <th>Opportunity</th>
-              <th>University</th>
-              <th>Course</th>
-              <th>Applied</th>
-              <th>Status</th>
-            </tr>
-          </thead>
+    @if (!loading && errorMessage) {
+      <p class="error-message">{{ errorMessage }}</p>
+      <button type="button" (click)="load()">Try Again</button>
+    }
 
-          <tbody>
-            @for (applicant of applicants; track applicant.id) {
+    @if (!loading && !errorMessage && applicants.length === 0) {
+      <p>No students have applied to your opportunities yet.</p>
+    }
+
+    @if (!loading && applicants.length > 0) {
+      <section class="applicants-card">
+        <div class="card-header">
+          <h2>Student Applications</h2>
+          <span>{{ applicants.length }} applicants</span>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
               <tr>
-                <td>
-                  <strong>{{ applicant.studentName }}</strong>
-                </td>
-
-                <td>{{ applicant.opportunity }}</td>
-
-                <td>{{ applicant.university }}</td>
-
-                <td>{{ applicant.course }}</td>
-
-                <td>{{ applicant.appliedDate }}</td>
-
-                <td>
-                  <select
-                    [value]="applicant.status"
-                    (change)="updateStatus(
-                      applicant.id,
-                      $any($event.target).value
-                    )"
-                    [class.pending]="applicant.status === 'Pending'"
-                    [class.shortlisted]="applicant.status === 'Shortlisted'"
-                    [class.accepted]="applicant.status === 'Accepted'"
-                    [class.rejected]="applicant.status === 'Rejected'"
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Shortlisted">Shortlisted</option>
-                    <option value="Accepted">Accepted</option>
-                    <option value="Rejected">Rejected</option>
-                  </select>
-                </td>
+                <th>Student</th>
+                <th>Opportunity</th>
+                <th>University</th>
+                <th>Course</th>
+                <th>Applied</th>
+                <th>Status</th>
               </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </section>
+            </thead>
+
+            <tbody>
+              @for (applicant of applicants; track applicant.id) {
+                <tr>
+                  <td><strong>{{ applicant.studentName }}</strong></td>
+                  <td>{{ applicant.opportunity }}</td>
+                  <td>{{ applicant.university }}</td>
+                  <td>{{ applicant.course }}</td>
+                  <td>{{ applicant.appliedDate }}</td>
+                  <td>
+                    <select
+                      [value]="applicant.status"
+                      (change)="updateStatus(
+                        applicant.id,
+                        $any($event.target).value
+                      )"
+                      [class.pending]="applicant.status === 'Pending'"
+                      [class.shortlisted]="applicant.status === 'Shortlisted'"
+                      [class.accepted]="applicant.status === 'Accepted'"
+                      [class.rejected]="applicant.status === 'Rejected'"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Shortlisted">Shortlisted</option>
+                      <option value="Accepted">Accepted</option>
+                      <option value="Rejected">Rejected</option>
+                    </select>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
 
     <section class="status-guide">
       <h2>Application Status Guide</h2>
